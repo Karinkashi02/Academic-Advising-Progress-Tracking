@@ -1,0 +1,52 @@
+{ 
+  "hosting": [
+    {
+      "target": "myplayground2004",
+      "public": "MyProject2004/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "malay-literature",
+      "public": "Malay-Literature/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+        {
+      "target": "acedemic-advising",
+      "public": "Academic-Advising/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "redpanda-raccoon",
+      "public": "redpanda-raccoon/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "myxand3rfukush1-p0rtf0lio",
+      "public": "Portfolio/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  ],
+  "database": {
+    "rules": "database.rules.json"
+  }
+}

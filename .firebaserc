@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "myplayground2004"
+  },
+  "targets": {
+    "myplayground2004": {
+      "hosting": {
+        "redpanda-raccoon": [
+          "redpanda-raccoon"
+        ],
+        "malay-literature": [
+          "malay-literature"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
