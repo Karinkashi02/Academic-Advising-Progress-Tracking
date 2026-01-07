@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities & Programs - Academic Advising System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #0ea5e9;
+            --light-blue: #93c5fd;
+            --background-blue: #f0f9ff;
+            --dark-text: #1e293b;
+            --accent-blue: #3b82f6;
+            --card-white: #ffffff;
+            --sidebar-width: 250px;
+            --gradient-blue: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --info-cyan: #06b6d4;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --teal: #14b8a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-blue);
+            color: var(--dark-text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gradient-blue);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            box-shadow: 3px 0 20px rgba(30, 58, 138, 0.2);
+            z-index: 100;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 25px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo-container p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            color: var(--light-blue);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0 20px;
+        }
+
+        .nav-links li {
+            margin-bottom: 8px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 14px 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+        }
+
+        .nav-links i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gradient-blue);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title i {
+            color: var(--light-blue);
+        }
+
+        /* Profile Area */
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .notification:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-red);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 18px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .profile-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-pic {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0f9ff, var(--light-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 100px;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-role {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dropdown-icon {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        /* Activity Stats */
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+            border-left: 5px solid;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.joined {
+            border-left-color: var(--success-green);
+        }
+
+        .stat-card.upcoming {
+            border-left-color: var(--info-cyan);
+        }
+
+        .stat-card.completed {
+            border-left-color: var(--purple);
+        }
+
+        .stat-card.points {
+            border-left-color: var(--warning-yellow);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .stat-card.joined .stat-icon {
+            background: linear-gradient(135deg, var(--success-green), #059669);
+        }
+
+        .stat-card.upcoming .stat-icon {
+            background: linear-gradient(135deg, var(--info-cyan), #0891b2);
+        }
+
+        .stat-card.completed .stat-icon {
+            background: linear-gradient(135deg, var(--purple), #7c3aed);
+        }
+
+        .stat-card.points .stat-icon {
+            background: linear-gradient(135deg, var(--warning-yellow), #d97706);
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-content p {
+            color: var(--dark-text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Filters Bar */
+        .filters-bar {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            background: white;
+            color: var(--dark-text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+
+        .filter-select:hover {
+            border-color: var(--secondary-blue);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            padding: 10px 15px;
+            gap: 10px;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+            color: var(--dark-text);
+        }
+
+        .search-box i {
+            color: var(--secondary-blue);
+        }
+
+        /* Activity Categories */
+        .activity-categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--light-blue);
+            background: white;
+            border-radius: 10px;
+            color: var(--dark-text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .category-btn i {
+            font-size: 1rem;
+        }
+
+        /* Activity Grid */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .activity-card {
+            background: var(--card-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(30, 58, 138, 0.15);
+        }
+
+        .activity-card.featured {
+            border: 2px solid var(--warning-yellow);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--warning-yellow), #d97706);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .activity-header {
+            padding: 25px;
+            position: relative;
+            color: white;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .activity-type {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .activity-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .activity-meta i {
+            margin-right: 5px;
+        }
+
+        .activity-body {
+            padding: 25px;
+        }
+
+        .activity-description {
+            color: var(--dark-text);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .activity-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-icon {
+            width: 36px;
+            height: 36px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .detail-content h4 {
+            font-size: 0.9rem;
+            color: var(--dark-text);
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+
+        .detail-content p {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .activity-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .activity-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status-upcoming {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            color: #1e40af;
+        }
+
+        .status-ongoing {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+        }
+
+        .status-full {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #059669);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary-blue);
+            color: var(--secondary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary-blue);
+            color: white;
+        }
+
+        .btn-disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* My Activities Section */
+        .my-activities {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--secondary-blue);
+        }
+
+        .my-activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .my-activity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 5px solid var(--success-green);
+            transition: all 0.3s ease;
+        }
+
+        .my-activity-item:hover {
+            background: #f0f9ff;
+            transform: translateX(5px);
+        }
+
+        .my-activity-info h4 {
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .my-activity-details {
+            display: flex;
+            gap: 20px;
+            color: var(--dark-text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .my-activity-details i {
+            margin-right: 5px;
+        }
+
+        .my-activity-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--dark-text);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary-blue));
+            color: white;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .activity-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .activity-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+            }
+            
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                justify-content: center;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .my-activity-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .my-activity-actions {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo-container h2, .logo-container p {
+                display: none;
+            }
+            
+            .nav-links a span {
+                display: none;
+            }
+            
+            .nav-links i {
+                margin-right: 0;
+                font-size: 1.4rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                padding: 15px;
+            }
+            
+            .activity-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-btn {
+                padding: 8px 12px;
+            }
+            
+            .profile-info {
+                display: none;
+            }
+            
+            .activity-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .category-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .filter-select {
+                min-width: 100%;
+            }
+            
+            .activity-header {
+                min-height: 150px;
+                padding: 20px;
+            }
+            
+            .activity-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-container">
+            <div class="logo">U</div>
+            <h2>Academic Advising</h2>
+            <p>Student Portal</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="my-courses.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
+            <li><a href="advising-sessions.html"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
+            <li><a href="activities.html" class="active"><i class="fas fa-running"></i> <span>Activities</span></a></li>
+            <li><a href="academic-progress.html"><i class="fas fa-chart-line"></i> <span>Progress</span></a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> <span>Reports</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="page-title">
+                <i class="fas fa-running"></i>
+                <span>Activities & Programs</span>
+            </div>
+            <div class="profile-area">
+                <div class="notification" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="profile-dropdown">
+                    <div class="profile-btn" id="profileBtn">
+                        <div class="profile-pic">MA</div>
+                        <div class="profile-info">
+                            <div class="profile-name">M. Amar Ghazali</div>
+                            <div class="profile-role">Student</div>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Activity Statistics -->
+        <div class="activity-stats">
+            <div class="stat-card joined">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>8</h3>
+                    <p>Activities Joined</p>
+                </div>
+            </div>
+            
+            <div class="stat-card upcoming">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>6</h3>
+                    <p>Upcoming Activities</p>
+                </div>
+            </div>
+            
+            <div class="stat-card completed">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>4</h3>
+                    <p>Completed Programs</p>
+                </div>
+            </div>
+            
+            <div class="stat-card points">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>125</h3>
+                    <p>Co-curricular Points</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="academic">Academic</option>
+                    <option value="leadership">Leadership</option>
+                    <option value="technical">Technical</option>
+                    <option value="sports">Sports & Wellness</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="volunteer">Volunteer</option>
+                </select>
+                
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                </select>
+                
+                <select class="filter-select" id="sortFilter">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="deadline">Near Deadline</option>
+                </select>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="activitySearch" placeholder="Search activities...">
+            </div>
+        </div>
+
+        <!-- Activity Categories -->
+        <div class="activity-categories">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-th-large"></i> All Activities
+            </button>
+            <button class="category-btn" data-category="academic">
+                <i class="fas fa-graduation-cap"></i> Academic
+            </button>
+            <button class="category-btn" data-category="workshop">
+                <i class="fas fa-laptop-code"></i> Workshops
+            </button>
+            <button class="category-btn" data-category="competition">
+                <i class="fas fa-trophy"></i> Competitions
+            </button>
+            <button class="category-btn" data-category="club">
+                <i class="fas fa-users"></i> Clubs & Societies
+            </button>
+            <button class="category-btn" data-category="sports">
+                <i class="fas fa-futbol"></i> Sports
+            </button>
+            <button class="category-btn" data-category="volunteer">
+                <i class="fas fa-hands-helping"></i> Volunteer
+            </button>
+        </div>
+
+        <!-- Activity Grid -->
+        <div class="activity-grid" id="activityGrid">
+            <!-- Activity 1: Coding Workshop -->
+            <div class="activity-card" data-category="workshop" data-status="upcoming">
+                <div class="featured-badge">Featured</div>
+                <div class="activity-header" style="background: linear-gradient(135deg, #3b82f6, #1e40af);">
+                    <div class="activity-type">Workshop</div>
+                    <h3 class="activity-title">Full-Stack Web Development Workshop</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Jan 15-20, 2026</span>
+                        <span><i class="far fa-clock"></i> 10:00 AM - 4:00 PM</span>
+                        <span><i class="fas fa-user-friends"></i> 25/40 spots</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        Hands-on workshop covering modern web development technologies including React, Node.js, and MongoDB. Perfect for students interested in building complete web applications.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Venue</h4>
+                                <p>Computer Lab 3, BK Building</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Instructor</h4>
+                                <p>Dr. Rahmah</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>25 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Fee</h4>
+                                <p>RM 50 (Materials)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-upcoming">Registration Open</span>
+                        <button class="btn btn-primary join-activity" data-activity="web-workshop">
+                            <i class="fas fa-sign-in-alt"></i> Join Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 2: Hackathon -->
+            <div class="activity-card featured" data-category="competition" data-status="upcoming">
+                <div class="featured-badge">Prize RM 5,000</div>
+                <div class="activity-header" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                    <div class="activity-type">Competition</div>
+                    <h3 class="activity-title">UiTM Hackathon 2026: Smart Campus Solutions</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Feb 10-12, 2026</span>
+                        <span><i class="far fa-clock"></i> 48 Hours</span>
+                        <span><i class="fas fa-user-friends"></i> Team Event</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        48-hour hackathon to develop innovative solutions for campus challenges. Categories include smart parking, digital library, and campus safety systems. Open to all students.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Venue</h4>
+                                <p>Innovation Hub</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Prize</h4>
+                                <p>RM 5,000 + Internship</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>50 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Registration</h4>
+                                <p>Free</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-upcoming">Registration Open</span>
+                        <button class="btn btn-primary join-activity" data-activity="hackathon">
+                            <i class="fas fa-sign-in-alt"></i> Register Team
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 3: Student Leadership -->
+            <div class="activity-card" data-category="club" data-status="ongoing">
+                <div class="activity-header" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <div class="activity-type">Leadership</div>
+                    <h3 class="activity-title">Computer Science Student Committee</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Year-Round</span>
+                        <span><i class="fas fa-user-friends"></i> Committee Members</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        Join the Computer Science Student Committee to represent student interests, organize events, and develop leadership skills. Positions available for various departments.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Positions</h4>
+                                <p>President, Events, Academic</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Time Commitment</h4>
+                                <p>5-10 hrs/week</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>30 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Certification</h4>
+                                <p>Leadership Certificate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-ongoing">Applications Open</span>
+                        <button class="btn btn-success join-activity" data-activity="cs-committee">
+                            <i class="fas fa-user-plus"></i> Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 4: Sports Tournament -->
+            <div class="activity-card" data-category="sports" data-status="upcoming">
+                <div class="activity-header" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                    <div class="activity-type">Sports</div>
+                    <h3 class="activity-title">Inter-Faculty Futsal Tournament</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Mar 5-15, 2026</span>
+                        <span><i class="far fa-clock"></i> 6:00 PM Daily</span>
+                        <span><i class="fas fa-user-friends"></i> 5-a-side Teams</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        Annual inter-faculty futsal tournament. Form your team and compete for the championship trophy. Open to all students regardless of skill level.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Venue</h4>
+                                <p>Sports Complex Court</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Prizes</h4>
+                                <p>Trophies + Cash Prizes</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>20 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Fee</h4>
+                                <p>RM 20 per team</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-upcoming">Registration Open</span>
+                        <button class="btn btn-primary join-activity" data-activity="futsal">
+                            <i class="fas fa-sign-in-alt"></i> Register Team
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 5: Volunteer Program -->
+            <div class="activity-card" data-category="volunteer" data-status="ongoing">
+                <div class="activity-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <div class="activity-type">Volunteer</div>
+                    <h3 class="activity-title">Tech Literacy for Rural Communities</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Every Saturday</span>
+                        <span><i class="far fa-clock"></i> 9:00 AM - 1:00 PM</span>
+                        <span><i class="fas fa-user-friends"></i> 15/20 volunteers</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        Teach basic computer skills to rural communities. No prior teaching experience needed. Perfect opportunity to give back while developing communication skills.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Location</h4>
+                                <p>Kampung Chendering</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Transport</h4>
+                                <p>Provided</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>15 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Certificate</h4>
+                                <p>Volunteer Certificate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-ongoing">Volunteers Needed</span>
+                        <button class="btn btn-success join-activity" data-activity="volunteer-tech">
+                            <i class="fas fa-hands-helping"></i> Volunteer Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 6: Research Conference -->
+            <div class="activity-card" data-category="academic" data-status="upcoming">
+                <div class="activity-header" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                    <div class="activity-type">Academic</div>
+                    <h3 class="activity-title">Student Research Conference 2026</h3>
+                    <div class="activity-meta">
+                        <span><i class="far fa-calendar"></i> Apr 20-22, 2026</span>
+                        <span><i class="fas fa-user-friends"></i> Presenters & Attendees</span>
+                    </div>
+                </div>
+                <div class="activity-body">
+                    <p class="activity-description">
+                        Present your research projects or attend as a participant. Great opportunity to showcase your work and network with faculty and industry professionals.
+                    </p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Venue</h4>
+                                <p>Dewan Tun Razak</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Presentation</h4>
+                                <p>Oral & Poster Sessions</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Points</h4>
+                                <p>40 Co-curricular</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Fee</h4>
+                                <p>Free for Presenters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <span class="activity-status status-upcoming">Abstract Deadline: Jan 30</span>
+                        <button class="btn btn-primary join-activity" data-activity="research-conf">
+                            <i class="fas fa-paper-plane"></i> Submit Abstract
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Activities Section -->
+        <div class="my-activities">
+            <h3 class="section-title"><i class="fas fa-clipboard-list"></i> My Registered Activities</h3>
+            <div class="my-activities-list">
+                <!-- Activity 1 -->
+                <div class="my-activity-item">
+                    <div class="my-activity-info">
+                        <h4>Mobile App Development Workshop</h4>
+                        <div class="my-activity-details">
+                            <span><i class="far fa-calendar"></i> Dec 18, 2025</span>
+                            <span><i class="far fa-clock"></i> 2:00 PM - 5:00 PM</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Lab 4</span>
+                            <span><i class="fas fa-star"></i> 20 Points</span>
+                        </div>
+                    </div>
+                    <div class="my-activity-actions">
+                        <button class="btn btn-outline view-details" data-activity="mobile-workshop">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-outline cancel-activity" data-activity="mobile-workshop">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="my-activity-item">
+                    <div class="my-activity-info">
+                        <h4>Programming Club: Weekly Meeting</h4>
+                        <div class="my-activity-details">
+                            <span><i class="far fa-calendar"></i> Every Wednesday</span>
+                            <span><i class="far fa-clock"></i> 4:00 PM - 6:00 PM</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Club Room</span>
+                            <span><i class="fas fa-star"></i> 5 Points/Week</span>
+                        </div>
+                    </div>
+                    <div class="my-activity-actions">
+                        <button class="btn btn-outline view-details" data-activity="programming-club">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-outline cancel-activity" data-activity="programming-club">
+                            <i class="fas fa-times"></i> Leave
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="my-activity-item">
+                    <div class="my-activity-info">
+                        <h4>Cybersecurity Awareness Seminar</h4>
+                        <div class="my-activity-details">
+                            <span><i class="far fa-calendar"></i> Jan 8, 2026</span>
+                            <span><i class="far fa-clock"></i> 10:00 AM - 12:00 PM</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Auditorium</span>
+                            <span><i class="fas fa-star"></i> 15 Points</span>
+                        </div>
+                    </div>
+                    <div class="my-activity-actions">
+                        <button class="btn btn-outline view-details" data-activity="cyber-seminar">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-outline cancel-activity" data-activity="cyber-seminar">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>Academic Advising & Progress Tracking System</strong> | UiTM Terengganu, Campus Chendering</p>
+            <p>© 2025 CSC584 - Enterprise Programming | <i class="fas fa-user-clock"></i> Last login: Dec 10, 2025 14:30</p>
+        </footer>
+    </div>
+
+    <!-- Activity Details Modal -->
+    <div class="modal" id="activityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalActivityTitle">Activity Details</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalActivityBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Notification bell
+            const notificationBtn = document.getElementById('notificationBtn');
+            notificationBtn.addEventListener('click', function() {
+                const count = this.querySelector('.notification-badge').textContent;
+                alert(`You have ${count} activity notifications:\n\n1. 🎯 New: Full-Stack Web Development Workshop\n2. 📅 Reminder: Programming Club meeting tomorrow\n3. ✅ Completed: Volunteer hours approved\n4. 🏆 You earned 20 co-curricular points!\n5. 🔔 Registration closing soon: Hackathon 2026`);
+                this.querySelector('.notification-badge').textContent = '0';
+                this.querySelector('.notification-badge').style.backgroundColor = '#6b7280';
+            });
+
+            // Category filtering
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const activityCards = document.querySelectorAll('.activity-card');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const sortFilter = document.getElementById('sortFilter');
+            const activitySearch = document.getElementById('activitySearch');
+
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    categoryButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterActivities();
+                });
+            });
+
+            function filterActivities() {
+                const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+                const selectedCategory = categoryFilter.value;
+                const selectedStatus = statusFilter.value;
+                const searchValue = activitySearch.value.toLowerCase();
+
+                activityCards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const cardStatus = card.dataset.status;
+                    const cardTitle = card.querySelector('.activity-title').textContent.toLowerCase();
+                    const cardDesc = card.querySelector('.activity-description').textContent.toLowerCase();
+
+                    let show = true;
+
+                    // Filter by active category button
+                    if (activeCategory !== 'all' && cardCategory !== activeCategory) {
+                        show = false;
+                    }
+
+                    // Filter by dropdown category
+                    if (selectedCategory !== 'all' && cardCategory !== selectedCategory) {
+                        show = false;
+                    }
+
+                    // Filter by status
+                    if (selectedStatus !== 'all' && cardStatus !== selectedStatus) {
+                        show = false;
+                    }
+
+                    // Filter by search
+                    if (searchValue && !cardTitle.includes(searchValue) && !cardDesc.includes(searchValue)) {
+                        show = false;
+                    }
+
+                    card.style.display = show ? 'block' : 'none';
+                });
+
+                // Sort activities
+                sortActivities();
+            }
+
+            function sortActivities() {
+                const container = document.getElementById('activityGrid');
+                const cards = Array.from(activityCards).filter(card => card.style.display !== 'none');
+                const sortBy = sortFilter.value;
+
+                cards.sort((a, b) => {
+                    switch(sortBy) {
+                        case 'newest':
+                            return -1; // In real app, would compare dates
+                        case 'oldest':
+                            return 1;
+                        case 'popular':
+                            // Compare participant counts
+                            const aCount = parseInt(a.querySelector('.activity-meta span:last-child').textContent.split('/')[0]);
+                            const bCount = parseInt(b.querySelector('.activity-meta span:last-child').textContent.split('/')[0]);
+                            return bCount - aCount;
+                        case 'deadline':
+                            // Compare dates (simplified)
+                            return -1;
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Reorder in DOM
+                cards.forEach(card => container.appendChild(card));
+            }
+
+            // Event listeners for filters
+            categoryFilter.addEventListener('change', filterActivities);
+            statusFilter.addEventListener('change', filterActivities);
+            sortFilter.addEventListener('change', filterActivities);
+            activitySearch.addEventListener('input', filterActivities);
+
+            // Activity details data
+            const activityDetails = {
+                'web-workshop': {
+                    title: 'Full-Stack Web Development Workshop',
+                    category: 'Workshop',
+                    description: 'This intensive 5-day workshop covers everything you need to know about modern web development. From frontend frameworks to backend APIs and databases, you\'ll build a complete web application from scratch.',
+                    details: {
+                        'Dates': 'January 15-20, 2026',
+                        'Time': '10:00 AM - 4:00 PM daily',
+                        'Venue': 'Computer Lab 3, BK Building',
+                        'Instructor': 'Dr. Rahmah (Senior Web Developer)',
+                        'Prerequisites': 'Basic programming knowledge',
+                        'Required Materials': 'Laptop with Node.js installed',
+                        'Points Awarded': '25 Co-curricular Points',
+                        'Certificate': 'Workshop Completion Certificate',
+                        'Registration Deadline': 'January 10, 2026'
+                    },
+                    syllabus: [
+                        'Day 1: HTML5, CSS3, and JavaScript Fundamentals',
+                        'Day 2: React.js Components and State Management',
+                        'Day 3: Node.js and Express.js Backend Development',
+                        'Day 4: MongoDB Database Integration',
+                        'Day 5: Deployment and Final Project Presentation'
+                    ],
+                    requirements: [
+                        'Bring your own laptop',
+                        'Install Node.js before workshop',
+                        'Basic understanding of JavaScript',
+                        'Commitment to attend all sessions'
+                    ]
+                },
+                'hackathon': {
+                    title: 'UiTM Hackathon 2026: Smart Campus Solutions',
+                    category: 'Competition',
+                    description: 'Join our 48-hour hackathon to create innovative solutions for campus challenges. Work in teams of 3-5 to develop software/hardware solutions. Mentors from industry and academia will be available to guide teams.',
+                    details: {
+                        'Dates': 'February 10-12, 2026',
+                        'Duration': '48 Hours (Continuous)',
+                        'Venue': 'Innovation Hub, Main Campus',
+                        'Team Size': '3-5 members',
+                        'Prizes': '1st: RM 5,000 + Internship Offers',
+                        'Categories': 'Smart Parking, Digital Library, Campus Safety',
+                        'Judges': 'Industry experts and faculty members',
+                        'Points Awarded': '50 Co-curricular Points',
+                        'Registration Deadline': 'February 1, 2026'
+                    },
+                    timeline: [
+                        'Day 1 (10:00 AM): Opening & Problem Statements',
+                        'Day 1 (12:00 PM): Coding Begins',
+                        'Day 2 (10:00 AM): Mid-point Check-in',
+                        'Day 3 (10:00 AM): Submission Deadline',
+                        'Day 3 (2:00 PM): Project Presentations',
+                        'Day 3 (5:00 PM): Awards Ceremony'
+                    ],
+                    rules: [
+                        'Teams must be formed before registration',
+                        'Code must be written during the event',
+                        'Use of open-source libraries allowed',
+                        'Projects must be original work'
+                    ]
+                }
+            };
+
+            // Join activity buttons
+            const joinButtons = document.querySelectorAll('.join-activity');
+            const modal = document.getElementById('activityModal');
+            const modalClose = document.getElementById('modalClose');
+
+            joinButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const activityId = this.dataset.activity;
+                    const details = activityDetails[activityId];
+                    
+                    if (details) {
+                        // Show details modal
+                        showActivityModal(details);
+                    } else {
+                        // Simulate joining activity
+                        const activityTitle = this.closest('.activity-card').querySelector('.activity-title').textContent;
+                        
+                        if (confirm(`Are you sure you want to join "${activityTitle}"?`)) {
+                            this.innerHTML = '<i class="fas fa-check"></i> Joined';
+                            this.classList.remove('btn-primary', 'btn-success');
+                            this.classList.add('btn-outline');
+                            this.disabled = true;
+                            
+                            // Update spots count
+                            const spotsElement = this.closest('.activity-card').querySelector('.activity-meta span:last-child');
+                            const [current, total] = spotsElement.textContent.split('/').map(s => parseInt(s));
+                            if (current < total) {
+                                spotsElement.textContent = `${current + 1}/${total} spots`;
+                            }
+                            
+                            alert(`✅ Successfully joined "${activityTitle}"!\n\nYou will receive a confirmation email with further details.`);
+                        }
+                    }
+                });
+            });
+
+            function showActivityModal(details) {
+                document.getElementById('modalActivityTitle').textContent = details.title;
+                
+                let syllabusHTML = '';
+                if (details.syllabus) {
+                    syllabusHTML = `
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-list-ol"></i> Syllabus / Timeline
+                            </h4>
+                            <ul style="padding-left: 20px;">
+                                ${details.syllabus.map(item => `<li style="margin-bottom: 8px; color: var(--dark-text);">${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                let requirementsHTML = '';
+                if (details.requirements) {
+                    requirementsHTML = `
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-exclamation-circle"></i> Requirements
+                            </h4>
+                            <ul style="padding-left: 20px;">
+                                ${details.requirements.map(item => `<li style="margin-bottom: 8px; color: var(--dark-text);">${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('modalActivityBody').innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="background: var(--light-blue); color: var(--primary-blue); padding: 5px 15px; border-radius: 20px; font-weight: 600;">
+                                ${details.category}
+                            </span>
+                            <span style="color: var(--dark-text); opacity: 0.8;">
+                                <i class="fas fa-star" style="color: #f59e0b;"></i> Featured Activity
+                            </span>
+                        </div>
+                        <p style="color: var(--dark-text); line-height: 1.6; margin-bottom: 20px;">${details.description}</p>
+                    </div>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-info-circle"></i> Activity Details
+                        </h4>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                            ${Object.entries(details.details).map(([key, value]) => `
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0;">
+                                    <span style="color: var(--dark-text); opacity: 0.7;">${key}:</span>
+                                    <span style="font-weight: 600; color: var(--primary-blue);">${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    ${syllabusHTML}
+                    ${requirementsHTML}
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button class="btn btn-primary" style="flex: 1;" id="confirmJoin">
+                            <i class="fas fa-sign-in-alt"></i> Join This Activity
+                        </button>
+                        <button class="btn btn-outline" style="flex: 1;" id="closeModal">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                `;
+                
+                modal.classList.add('show');
+                
+                // Add event listeners for modal buttons
+                document.getElementById('confirmJoin').addEventListener('click', function() {
+                    alert(`✅ Successfully joined "${details.title}"!\n\nYou will receive a confirmation email with further details.`);
+                    modal.classList.remove('show');
+                });
+                
+                document.getElementById('closeModal').addEventListener('click', function() {
+                    modal.classList.remove('show');
+                });
+            }
+
+            // Close modal
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('show');
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // My Activities actions
+            document.querySelectorAll('.view-details').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const activityId = this.dataset.activity;
+                    alert(`Showing details for your registered activity...`);
+                });
+            });
+
+            document.querySelectorAll('.cancel-activity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const activityId = this.dataset.activity;
+                    const activityName = this.closest('.my-activity-item').querySelector('h4').textContent;
+                    
+                    if (confirm(`Are you sure you want to cancel your registration for "${activityName}"?`)) {
+                        this.closest('.my-activity-item').remove();
+                        alert(`Registration cancelled for "${activityName}".`);
+                    }
+                });
+            });
+
+            // Set minimum date for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.min = today;
+            });
+        });
+    </script>
+</body>
+</html>

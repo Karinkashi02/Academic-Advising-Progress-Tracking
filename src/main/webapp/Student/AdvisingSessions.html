@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advising Sessions - Academic Advising & Progress Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #0ea5e9;
+            --light-blue: #93c5fd;
+            --background-blue: #f0f9ff;
+            --dark-text: #1e293b;
+            --accent-blue: #3b82f6;
+            --card-white: #ffffff;
+            --sidebar-width: 250px;
+            --gradient-blue: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --info-cyan: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-blue);
+            color: var(--dark-text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gradient-blue);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            box-shadow: 3px 0 20px rgba(30, 58, 138, 0.2);
+            z-index: 100;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 25px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo-container p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            color: var(--light-blue);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0 20px;
+        }
+
+        .nav-links li {
+            margin-bottom: 8px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 14px 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s;
+        }
+
+        .nav-links a:hover:before {
+            left: 100%;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+            box-shadow: -3px 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gradient-blue);
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title i {
+            color: var(--light-blue);
+        }
+
+        /* Profile Area */
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .notification:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-red);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 18px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .profile-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-btn.active {
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .profile-pic {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0f9ff, var(--light-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 100px;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-role {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dropdown-icon {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .profile-btn.active .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            margin-top: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1100;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+            color: var(--danger-red);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f8fafc;
+            padding-left: 25px;
+        }
+
+        .dropdown-menu i {
+            margin-right: 12px;
+            color: var(--secondary-blue);
+            width: 20px;
+        }
+
+        /* Backdrop */
+        .dropdown-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1099;
+            display: none;
+        }
+
+        .dropdown-backdrop.active {
+            display: block;
+        }
+
+        /* Quick Stats Bar */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-box.upcoming {
+            border-left-color: var(--info-cyan);
+        }
+
+        .stat-box.completed {
+            border-left-color: var(--success-green);
+        }
+
+        .stat-box.pending {
+            border-left-color: var(--warning-yellow);
+        }
+
+        .stat-box.cancelled {
+            border-left-color: var(--danger-red);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+        }
+
+        .stat-icon.upcoming {
+            background: linear-gradient(135deg, var(--info-cyan), #0891b2);
+        }
+
+        .stat-icon.completed {
+            background: linear-gradient(135deg, var(--success-green), #059669);
+        }
+
+        .stat-icon.pending {
+            background: linear-gradient(135deg, var(--warning-yellow), #d97706);
+        }
+
+        .stat-icon.cancelled {
+            background: linear-gradient(135deg, var(--danger-red), #dc2626);
+        }
+
+        .stat-content h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-content p {
+            color: var(--dark-text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Action Bar */
+        .action-bar {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            background: white;
+            color: var(--dark-text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover {
+            border-color: var(--secondary-blue);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            padding: 8px 15px;
+            gap: 10px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 200px;
+            font-size: 0.95rem;
+            color: var(--dark-text);
+        }
+
+        .search-box i {
+            color: var(--secondary-blue);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #059669);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Sessions Container */
+        .sessions-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Upcoming Sessions */
+        .upcoming-sessions {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--secondary-blue);
+        }
+
+        .session-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .session-card {
+            border-radius: 12px;
+            padding: 25px;
+            background: #f8fafc;
+            border-left: 5px solid var(--info-cyan);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .session-card:hover {
+            transform: translateX(5px);
+            background: #f0f9ff;
+        }
+
+        .session-card.confirmed {
+            border-left-color: var(--success-green);
+        }
+
+        .session-card.pending {
+            border-left-color: var(--warning-yellow);
+        }
+
+        .session-card.cancelled {
+            border-left-color: var(--danger-red);
+            opacity: 0.8;
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .session-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .session-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-confirmed {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+        }
+
+        .session-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--light-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .detail-content h4 {
+            font-size: 0.9rem;
+            color: var(--dark-text);
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+
+        .detail-content p {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .session-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary-blue);
+            color: var(--secondary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary-blue);
+            color: white;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 2px solid var(--light-blue);
+            background: white;
+            color: var(--primary-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav-btn:hover {
+            border-color: var(--secondary-blue);
+            background: var(--background-blue);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 10px 5px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 0.9rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .calendar-dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .date-cell {
+            aspect-ratio: 1;
+            padding: 8px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .date-cell:hover {
+            background: #f0f9ff;
+            border-color: var(--light-blue);
+        }
+
+        .date-cell.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+            color: white;
+            font-weight: 700;
+        }
+
+        .date-cell.has-session:after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            width: 5px;
+            height: 5px;
+            background: var(--success-green);
+            border-radius: 50%;
+        }
+
+        .calendar-events {
+            margin-top: 20px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--info-cyan);
+        }
+
+        .event-item.confirmed {
+            border-left-color: var(--success-green);
+        }
+
+        .event-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--info-cyan);
+        }
+
+        .event-dot.confirmed {
+            background: var(--success-green);
+        }
+
+        .event-time {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+
+        .event-title {
+            flex: 1;
+            font-weight: 500;
+            color: var(--dark-text);
+            font-size: 0.95rem;
+        }
+
+        /* Past Sessions */
+        .past-sessions {
+            background: var(--card-white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .session-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .session-table th {
+            background: linear-gradient(135deg, #f1f5f9, #e0f2fe);
+            color: var(--primary-blue);
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .session-table th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        .session-table th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        .session-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+        }
+
+        .session-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .notes-preview {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--dark-text);
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--dark-text);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary-blue));
+            color: white;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sessions-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+            }
+            
+            .action-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .filter-group {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .session-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo-container h2, .logo-container p {
+                display: none;
+            }
+            
+            .nav-links a span {
+                display: none;
+            }
+            
+            .nav-links i {
+                margin-right: 0;
+                font-size: 1.4rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                padding: 15px;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-btn {
+                padding: 8px 12px;
+            }
+            
+            .profile-info {
+                display: none;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .calendar-dates, .calendar-grid {
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .stat-content h3 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Backdrop for closing dropdown when clicking outside -->
+    <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-container">
+            <div class="logo">U</div>
+            <h2>Academic Advising</h2>
+            <p>Student Portal</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="my-courses.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
+            <li><a href="advising-sessions.html" class="active"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
+            <li><a href="academic-progress.html"><i class="fas fa-chart-line"></i> <span>Academic Progress</span></a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> <span>Reports</span></a></li>
+            <li><a href="help.html"><i class="fas fa-question-circle"></i> <span>Help Center</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="page-title">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Advising Sessions</span>
+            </div>
+            <div class="profile-area">
+                <div class="notification" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="profile-dropdown">
+                    <div class="profile-btn" id="profileBtn">
+                        <div class="profile-pic">MA</div>
+                        <div class="profile-info">
+                            <div class="profile-name">M. Amar Ghazali</div>
+                            <div class="profile-role">Student</div>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user-circle"></i> My Profile</a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</a>
+                        <a href="privacy.html" class="dropdown-item"><i class="fas fa-shield-alt"></i> Privacy & Security</a>
+                        <a href="help.html" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                        <a href="#" class="dropdown-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-box upcoming">
+                <div class="stat-icon upcoming">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>2</h3>
+                    <p>Upcoming Sessions</p>
+                </div>
+            </div>
+            <div class="stat-box completed">
+                <div class="stat-icon completed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>5</h3>
+                    <p>Sessions Completed</p>
+                </div>
+            </div>
+            <div class="stat-box pending">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>1</h3>
+                    <p>Pending Requests</p>
+                </div>
+            </div>
+            <div class="stat-box cancelled">
+                <div class="stat-icon cancelled">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>0</h3>
+                    <p>Cancelled Sessions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="action-bar">
+            <div class="filter-group">
+                <select class="filter-select" id="sessionTypeFilter">
+                    <option value="all">All Session Types</option>
+                    <option value="academic">Academic Planning</option>
+                    <option value="course">Course Selection</option>
+                    <option value="career">Career Guidance</option>
+                    <option value="personal">Personal Issues</option>
+                </select>
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="sessionSearch" placeholder="Search sessions...">
+                </div>
+            </div>
+            <button class="btn btn-primary" id="newSessionBtn">
+                <i class="fas fa-plus-circle"></i> Request New Session
+            </button>
+        </div>
+
+        <!-- Sessions Container -->
+        <div class="sessions-container">
+            <!-- Upcoming Sessions -->
+            <div class="upcoming-sessions">
+                <h3 class="section-title"><i class="fas fa-calendar-check"></i> Upcoming Sessions</h3>
+                <div class="session-list" id="upcomingSessions">
+                    <!-- Session 1 -->
+                    <div class="session-card confirmed">
+                        <div class="session-header">
+                            <div>
+                                <div class="session-title">Final Year Project Discussion</div>
+                                <span class="session-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="session-time">
+                                <div style="font-weight: 600; color: var(--primary-blue);">Dec 20, 2025</div>
+                                <div style="color: var(--dark-text); opacity: 0.8;">10:00 AM - 11:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="session-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Advisor</h4>
+                                    <p>Dr. Siti Zulaikha</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Mode</h4>
+                                    <p>Virtual Meeting</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Type</h4>
+                                    <p>Project Guidance</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Meeting Link</h4>
+                                    <p style="color: var(--accent-blue); cursor: pointer;">Join Meeting</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn btn-sm btn-success join-session" data-session="1">
+                                <i class="fas fa-video"></i> Join Now
+                            </button>
+                            <button class="btn btn-sm btn-outline reschedule-session" data-session="1">
+                                <i class="fas fa-calendar-alt"></i> Reschedule
+                            </button>
+                            <button class="btn btn-sm btn-outline cancel-session" data-session="1">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Session 2 -->
+                    <div class="session-card pending">
+                        <div class="session-header">
+                            <div>
+                                <div class="session-title">Semester 3 Planning</div>
+                                <span class="session-status status-pending">Pending</span>
+                            </div>
+                            <div class="session-time">
+                                <div style="font-weight: 600; color: var(--primary-blue);">Jan 15, 2026</div>
+                                <div style="color: var(--dark-text); opacity: 0.8;">2:30 PM - 3:30 PM</div>
+                            </div>
+                        </div>
+                        <div class="session-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Advisor</h4>
+                                    <p>Dr. Ahmad Faiz</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Mode</h4>
+                                    <p>In-Person</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Type</h4>
+                                    <p>Academic Planning</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Location</h4>
+                                    <p>Faculty Office, BK-205</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn btn-sm btn-primary edit-request" data-session="2">
+                                <i class="fas fa-edit"></i> Edit Request
+                            </button>
+                            <button class="btn btn-sm btn-outline cancel-request" data-session="2">
+                                <i class="fas fa-times"></i> Cancel Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> December 2025</h3>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-btn" id="prevMonth">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="calendar-nav-btn" id="nextMonth">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="calendar-grid">
+                    <div class="calendar-day">Sun</div>
+                    <div class="calendar-day">Mon</div>
+                    <div class="calendar-day">Tue</div>
+                    <div class="calendar-day">Wed</div>
+                    <div class="calendar-day">Thu</div>
+                    <div class="calendar-day">Fri</div>
+                    <div class="calendar-day">Sat</div>
+                </div>
+                
+                <div class="calendar-dates" id="calendarDates">
+                    <!-- Calendar dates will be populated by JavaScript -->
+                </div>
+                
+                <div class="calendar-events">
+                    <h4 style="margin: 20px 0 15px 0; color: var(--primary-blue); font-weight: 600;">Today's Sessions</h4>
+                    <div class="event-item confirmed">
+                        <div class="event-dot confirmed"></div>
+                        <div class="event-time">10:00 AM</div>
+                        <div class="event-title">Meeting with Dr. Siti Zulaikha</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-dot"></div>
+                        <div class="event-time">3:00 PM</div>
+                        <div class="event-title">Group Study Session</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Sessions -->
+        <div class="past-sessions">
+            <h3 class="section-title"><i class="fas fa-history"></i> Past Sessions</h3>
+            <table class="session-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Advisor</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nov 15, 2025</strong><br>10:00 AM</td>
+                        <td>Dr. Siti Zulaikha</td>
+                        <td>Semester 2 Course Planning</td>
+                        <td>Academic Planning</td>
+                        <td class="notes-preview">Discussed course selection for next semester. Recommended CSC567 and ITT569.</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="3">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oct 28, 2025</strong><br>2:00 PM</td>
+                        <td>Dr. Ahmad Faiz</td>
+                        <td>Database Project Guidance</td>
+                        <td>Project Guidance</td>
+                        <td class="notes-preview">Reviewed database design. Suggested improvements for normalization.</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="4">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sep 10, 2025</strong><br>11:30 AM</td>
+                        <td>Dr. Siti Zulaikha</td>
+                        <td>Academic Progress Review</td>
+                        <td>Progress Review</td>
+                        <td class="notes-preview">Good academic performance. Maintain CGPA above 3.5 for Dean's List.</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="5">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aug 22, 2025</strong><br>9:00 AM</td>
+                        <td>Dr. Norhayati</td>
+                        <td>Internship Opportunities</td>
+                        <td>Career Guidance</td>
+                        <td class="notes-preview">Discussed available internship positions for next summer.</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="6">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jul 15, 2025</strong><br>3:00 PM</td>
+                        <td>Dr. Rahmah</td>
+                        <td>Web Development Career Path</td>
+                        <td>Career Guidance</td>
+                        <td class="notes-preview">Explored different career paths in web development.</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="7">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>Academic Advising & Progress Tracking System</strong> | UiTM Terengganu, Campus Chendering</p>
+            <p>© 2025 CSC584 - Enterprise Programming | <i class="fas fa-user-clock"></i> Last login: Dec 10, 2025 14:30 | <i class="fas fa-shield-alt"></i> Secure Connection</p>
+        </footer>
+    </div>
+
+    <!-- New Session Modal -->
+    <div class="modal" id="newSessionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-calendar-plus"></i> Request New Advising Session</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="sessionRequestForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="sessionType">
+                                <i class="fas fa-tag"></i> Session Type
+                            </label>
+                            <select class="form-control" id="sessionType" required>
+                                <option value="">Select session type</option>
+                                <option value="academic">Academic Planning</option>
+                                <option value="course">Course Selection</option>
+                                <option value="career">Career Guidance</option>
+                                <option value="project">Project Guidance</option>
+                                <option value="personal">Personal Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="preferredAdvisor">
+                                <i class="fas fa-user-tie"></i> Preferred Advisor
+                            </label>
+                            <select class="form-control" id="preferredAdvisor" required>
+                                <option value="">Select advisor</option>
+                                <option value="zulaikha">Dr. Siti Zulaikha Zulkafli</option>
+                                <option value="ahmad">Dr. Ahmad Faiz</option>
+                                <option value="norhayati">Dr. Norhayati</option>
+                                <option value="rahmah">Dr. Rahmah</option>
+                                <option value="any">Any Available Advisor</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="preferredDate">
+                                <i class="fas fa-calendar"></i> Preferred Date
+                            </label>
+                            <input type="date" class="form-control" id="preferredDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="preferredTime">
+                                <i class="fas fa-clock"></i> Preferred Time
+                            </label>
+                            <select class="form-control" id="preferredTime" required>
+                                <option value="">Select time slot</option>
+                                <option value="9am">9:00 AM - 10:00 AM</option>
+                                <option value="10am">10:00 AM - 11:00 AM</option>
+                                <option value="11am">11:00 AM - 12:00 PM</option>
+                                <option value="2pm">2:00 PM - 3:00 PM</option>
+                                <option value="3pm">3:00 PM - 4:00 PM</option>
+                                <option value="4pm">4:00 PM - 5:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="meetingMode">
+                                <i class="fas fa-video"></i> Meeting Mode
+                            </label>
+                            <select class="form-control" id="meetingMode" required>
+                                <option value="virtual">Virtual Meeting</option>
+                                <option value="inperson">In-Person</option>
+                                <option value="hybrid">Either</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="urgency">
+                                <i class="fas fa-exclamation-circle"></i> Urgency Level
+                            </label>
+                            <select class="form-control" id="urgency" required>
+                                <option value="normal">Normal</option>
+                                <option value="important">Important</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="sessionTopic">
+                            <i class="fas fa-comment-alt"></i> Session Topic / Title
+                        </label>
+                        <input type="text" class="form-control" id="sessionTopic" placeholder="e.g., Final Year Project Discussion" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="sessionDescription">
+                            <i class="fas fa-align-left"></i> Detailed Description
+                        </label>
+                        <textarea class="form-control" id="sessionDescription" placeholder="Please describe what you would like to discuss during the session..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="relatedCourses">
+                            <i class="fas fa-book"></i> Related Courses (if any)
+                        </label>
+                        <input type="text" class="form-control" id="relatedCourses" placeholder="e.g., CSC584, CSC566">
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-success" style="flex: 1;">
+                            <i class="fas fa-paper-plane"></i> Submit Request
+                        </button>
+                        <button type="button" class="btn btn-outline" id="cancelRequest" style="flex: 1;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Notes Modal -->
+    <div class="modal" id="notesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-sticky-note"></i> Session Notes</h3>
+                <button class="modal-close" id="notesModalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="notesModalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Profile dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileBtn = document.getElementById('profileBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownBackdrop = document.getElementById('dropdownBackdrop');
+            const notificationBtn = document.getElementById('notificationBtn');
+            
+            let isDropdownOpen = false;
+            
+            // Toggle dropdown on profile button click
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+            
+            // Close dropdown when clicking on backdrop
+            dropdownBackdrop.addEventListener('click', function() {
+                closeDropdown();
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (isDropdownOpen && 
+                    !profileBtn.contains(e.target) && 
+                    !dropdownMenu.contains(e.target)) {
+                    closeDropdown();
+                }
+            });
+            
+            // Close dropdown when pressing Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+            
+            function toggleDropdown() {
+                if (isDropdownOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            }
+            
+            function openDropdown() {
+                dropdownMenu.classList.add('show');
+                dropdownBackdrop.classList.add('active');
+                profileBtn.classList.add('active');
+                isDropdownOpen = true;
+            }
+            
+            function closeDropdown() {
+                dropdownMenu.classList.remove('show');
+                dropdownBackdrop.classList.remove('active');
+                profileBtn.classList.remove('active');
+                isDropdownOpen = false;
+            }
+            
+            // Dropdown menu item clicks
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const action = this.textContent.trim();
+                    
+                    switch(action) {
+                        case 'My Profile':
+                            alert('Opening My Profile page...');
+                            break;
+                        case 'Account Settings':
+                            alert('Opening Account Settings...');
+                            break;
+                        case 'Privacy & Security':
+                            alert('Opening Privacy & Security settings...');
+                            break;
+                        case 'Help & Support':
+                            alert('Opening Help Center...');
+                            break;
+                        case 'Logout':
+                            if(confirm('Are you sure you want to logout?')) {
+                                alert('Logging out... Redirecting to login page.');
+                                // In real app: window.location.href = '/logout';
+                            }
+                            break;
+                    }
+                    
+                    closeDropdown();
+                });
+            });
+            
+            // Notification bell click
+            notificationBtn.addEventListener('click', function() {
+                const notificationCount = document.querySelector('.notification-badge').textContent;
+                alert(`You have ${notificationCount} unread notifications:\n\n1. 🔔 New session request approved\n2. 📅 Reminder: Meeting tomorrow at 10 AM\n3. 📝 Session notes updated for Nov 15 meeting`);
+                this.querySelector('.notification-badge').textContent = '0';
+                this.querySelector('.notification-badge').style.backgroundColor = '#6b7280';
+            });
+            
+            // Calendar functionality
+            function generateCalendar() {
+                const calendarDates = document.getElementById('calendarDates');
+                calendarDates.innerHTML = '';
+                
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                
+                // Get first day of month
+                const firstDay = new Date(currentYear, currentMonth, 1);
+                const lastDay = new Date(currentYear, currentMonth + 1, 0);
+                
+                // Days in month
+                const daysInMonth = lastDay.getDate();
+                
+                // Start day (0 = Sunday, 1 = Monday, etc.)
+                const startDay = firstDay.getDay();
+                
+                // Add empty cells for days before first day of month
+                for (let i = 0; i < startDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'date-cell';
+                    emptyCell.style.visibility = 'hidden';
+                    calendarDates.appendChild(emptyCell);
+                }
+                
+                // Add cells for each day
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateCell = document.createElement('div');
+                    dateCell.className = 'date-cell';
+                    dateCell.textContent = day;
+                    
+                    // Mark current day
+                    if (day === currentDate.getDate() && currentMonth === currentDate.getMonth()) {
+                        dateCell.classList.add('active');
+                    }
+                    
+                    // Mark days with sessions (example: 10th, 15th, 20th)
+                    if ([10, 15, 20, 25].includes(day)) {
+                        dateCell.classList.add('has-session');
+                    }
+                    
+                    calendarDates.appendChild(dateCell);
+                }
+            }
+            
+            // Initialize calendar
+            generateCalendar();
+            
+            // Calendar navigation
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                alert('Previous month clicked');
+                // In real app: update calendar to show previous month
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                alert('Next month clicked');
+                // In real app: update calendar to show next month
+            });
+            
+            // Session filtering
+            const sessionTypeFilter = document.getElementById('sessionTypeFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const sessionSearch = document.getElementById('sessionSearch');
+            
+            function filterSessions() {
+                const sessionCards = document.querySelectorAll('.session-card');
+                const tableRows = document.querySelectorAll('.session-table tbody tr');
+                
+                const typeValue = sessionTypeFilter.value;
+                const statusValue = statusFilter.value;
+                const searchValue = sessionSearch.value.toLowerCase();
+                
+                // Filter session cards
+                sessionCards.forEach(card => {
+                    const cardStatus = card.classList.contains('confirmed') ? 'confirmed' : 
+                                     card.classList.contains('pending') ? 'pending' : 
+                                     card.classList.contains('cancelled') ? 'cancelled' : 'completed';
+                    
+                    const cardTitle = card.querySelector('.session-title').textContent.toLowerCase();
+                    
+                    let show = true;
+                    
+                    // Filter by type (simplified - in real app, would have data-type attribute)
+                    if (typeValue !== 'all') {
+                        // This is simplified - real implementation would check session type
+                        if (typeValue === 'academic' && !cardTitle.includes('planning') && !cardTitle.includes('academic')) show = false;
+                        if (typeValue === 'course' && !cardTitle.includes('course')) show = false;
+                        if (typeValue === 'career' && !cardTitle.includes('career') && !cardTitle.includes('internship')) show = false;
+                    }
+                    
+                    // Filter by status
+                    if (statusValue !== 'all' && cardStatus !== statusValue) {
+                        show = false;
+                    }
+                    
+                    // Filter by search
+                    if (searchValue && !cardTitle.includes(searchValue)) {
+                        show = false;
+                    }
+                    
+                    card.style.display = show ? 'block' : 'none';
+                });
+                
+                // Filter table rows
+                tableRows.forEach(row => {
+                    const rowText = row.textContent.toLowerCase();
+                    let show = true;
+                    
+                    if (searchValue && !rowText.includes(searchValue)) {
+                        show = false;
+                    }
+                    
+                    row.style.display = show ? 'table-row' : 'none';
+                });
+            }
+            
+            sessionTypeFilter.addEventListener('change', filterSessions);
+            statusFilter.addEventListener('change', filterSessions);
+            sessionSearch.addEventListener('input', filterSessions);
+            
+            // New Session Modal
+            const newSessionModal = document.getElementById('newSessionModal');
+            const newSessionBtn = document.getElementById('newSessionBtn');
+            const modalClose = document.getElementById('modalClose');
+            const cancelRequest = document.getElementById('cancelRequest');
+            const sessionRequestForm = document.getElementById('sessionRequestForm');
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('preferredDate').min = today;
+            
+            newSessionBtn.addEventListener('click', function() {
+                newSessionModal.classList.add('show');
+                dropdownBackdrop.classList.add('active');
+            });
+            
+            modalClose.addEventListener('click', function() {
+                newSessionModal.classList.remove('show');
+                dropdownBackdrop.classList.remove('active');
+            });
+            
+            cancelRequest.addEventListener('click', function() {
+                newSessionModal.classList.remove('show');
+                dropdownBackdrop.classList.remove('active');
+            });
+            
+            dropdownBackdrop.addEventListener('click', function() {
+                newSessionModal.classList.remove('show');
+                this.classList.remove('active');
+            });
+            
+            // Form submission
+            sessionRequestForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    type: document.getElementById('sessionType').value,
+                    advisor: document.getElementById('preferredAdvisor').value,
+                    date: document.getElementById('preferredDate').value,
+                    time: document.getElementById('preferredTime').value,
+                    mode: document.getElementById('meetingMode').value,
+                    urgency: document.getElementById('urgency').value,
+                    topic: document.getElementById('sessionTopic').value,
+                    description: document.getElementById('sessionDescription').value,
+                    courses: document.getElementById('relatedCourses').value
+                };
+                
+                // Simulate form submission
+                alert(`Session request submitted successfully!\n\nTopic: ${formData.topic}\nDate: ${formData.date}\nAdvisor: ${formData.advisor}\n\nYou will receive a confirmation email once your advisor approves the request.`);
+                
+                // Reset form and close modal
+                sessionRequestForm.reset();
+                newSessionModal.classList.remove('show');
+                dropdownBackdrop.classList.remove('active');
+            });
+            
+            // Session actions
+            document.querySelectorAll('.join-session').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    alert(`Joining session ${sessionId}...\nMeeting link would open in a new window.`);
+                });
+            });
+            
+            document.querySelectorAll('.reschedule-session').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    alert(`Opening reschedule form for session ${sessionId}...`);
+                });
+            });
+            
+            document.querySelectorAll('.cancel-session').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    if (confirm('Are you sure you want to cancel this session?')) {
+                        alert(`Session ${sessionId} cancelled successfully.`);
+                        // In real app: update UI to reflect cancellation
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.edit-request').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    alert(`Editing request for session ${sessionId}...`);
+                });
+            });
+            
+            document.querySelectorAll('.cancel-request').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    if (confirm('Are you sure you want to cancel this request?')) {
+                        alert(`Request ${sessionId} cancelled successfully.`);
+                        // In real app: update UI to reflect cancellation
+                    }
+                });
+            });
+            
+            // Session Notes Modal
+            const notesModal = document.getElementById('notesModal');
+            const notesModalClose = document.getElementById('notesModalClose');
+            const viewNotesButtons = document.querySelectorAll('.view-notes');
+            
+            // Session notes data
+            const sessionNotes = {
+                '3': {
+                    title: 'Semester 2 Course Planning',
+                    date: 'November 15, 2025, 10:00 AM',
+                    advisor: 'Dr. Siti Zulaikha Zulkafli',
+                    type: 'Academic Planning',
+                    notes: `Student: Muhammad Amar Ghazali
+Advisor: Dr. Siti Zulaikha Zulkafli
+Date: November 15, 2025
+Time: 10:00 AM - 11:00 AM
+
+SUMMARY:
+Discussed course selection for Semester 2. Student is currently maintaining excellent academic performance with a CGPA of 3.75.
+
+RECOMMENDATIONS:
+1. Enroll in CSC567 - Software Engineering (Core requirement)
+2. Enroll in ITT569 - Web Application Development (Elective)
+3. Consider CSC568 as backup if ITT569 is full
+4. Maintain current study habits for Dean's List eligibility
+
+ACTION ITEMS:
+- Student to register for recommended courses during next registration window
+- Schedule follow-up session after mid-semester exams
+- Submit internship application by December 15, 2025
+
+ADDITIONAL NOTES:
+Student expressed interest in web development specialization. Advised to complete ITT569 and consider advanced web courses in subsequent semesters.`,
+                    followUp: 'Schedule next session for mid-semester review'
+                },
+                '4': {
+                    title: 'Database Project Guidance',
+                    date: 'October 28, 2025, 2:00 PM',
+                    advisor: 'Dr. Ahmad Faiz',
+                    type: 'Project Guidance',
+                    notes: `Student: Muhammad Amar Ghazali
+Advisor: Dr. Ahmad Faiz
+Date: October 28, 2025
+Time: 2:00 PM - 3:00 PM
+
+PROJECT REVIEW:
+Reviewed database design for CSC566 final project. Student has designed a library management system with 8 tables.
+
+FEEDBACK:
+1. Normalization: Suggest moving book_author to separate table
+2. Indexing: Add indexes on frequently searched columns (book_title, member_name)
+3. Relationships: Review foreign key constraints
+4. Performance: Consider views for common queries
+
+RECOMMENDATIONS:
+- Implement suggested normalization changes
+- Add proper indexing strategy
+- Include stored procedures for common operations
+- Test with sample data of 10,000 records
+
+NEXT STEPS:
+- Submit revised ER diagram by November 5
+- Schedule demo session after implementation
+- Consider presenting project at department showcase`,
+                    followUp: 'Submit revised design by November 5, 2025'
+                }
+            };
+            
+            // Open notes modal
+            viewNotesButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sessionId = this.dataset.session;
+                    const notes = sessionNotes[sessionId];
+                    
+                    if (notes) {
+                        document.getElementById('notesModalBody').innerHTML = `
+                            <div style="margin-bottom: 25px;">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">${notes.title}</h4>
+                                <div style="display: flex; align-items: center; gap: 20px; color: var(--dark-text); opacity: 0.8; font-size: 0.95rem;">
+                                    <div><i class="fas fa-calendar"></i> ${notes.date}</div>
+                                    <div><i class="fas fa-user-tie"></i> ${notes.advisor}</div>
+                                    <div><i class="fas fa-tag"></i> ${notes.type}</div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+                                <h5 style="color: var(--primary-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-sticky-note"></i> Session Notes
+                                </h5>
+                                <pre style="white-space: pre-wrap; font-family: inherit; color: var(--dark-text); line-height: 1.6;">${notes.notes}</pre>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 10px; border-left: 4px solid var(--accent-blue);">
+                                <h5 style="color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-flag"></i> Follow-up Action
+                                </h5>
+                                <p style="color: var(--dark-text); font-weight: 500;">${notes.followUp}</p>
+                            </div>
+                            
+                            <div style="margin-top: 25px; display: flex; gap: 15px;">
+                                <button class="btn btn-outline" onclick="window.location.href='session-details.html?id=${sessionId}'" style="flex: 1;">
+                                    <i class="fas fa-external-link-alt"></i> View Full Details
+                                </button>
+                                <button class="btn btn-primary" onclick="window.print()" style="flex: 1;">
+                                    <i class="fas fa-print"></i> Print Notes
+                                </button>
+                            </div>
+                        `;
+                        
+                        notesModal.classList.add('show');
+                        dropdownBackdrop.classList.add('active');
+                    } else {
+                        alert('Session notes not available yet.');
+                    }
+                });
+            });
+            
+            // Close notes modal
+            notesModalClose.addEventListener('click', function() {
+                notesModal.classList.remove('show');
+                dropdownBackdrop.classList.remove('active');
+            });
+            
+            // Close modals with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (newSessionModal.classList.contains('show')) {
+                        newSessionModal.classList.remove('show');
+                        dropdownBackdrop.classList.remove('active');
+                    }
+                    if (notesModal.classList.contains('show')) {
+                        notesModal.classList.remove('show');
+                        dropdownBackdrop.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
