@@ -173,41 +173,6 @@
             position: relative;
         }
 
-        .notification {
-            position: relative;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.2);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .notification:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger-red);
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        }
-
         .profile-dropdown {
             position: relative;
             cursor: pointer;
@@ -782,50 +747,6 @@
             border-radius: 50%;
         }
 
-        .calendar-events {
-            margin-top: 20px;
-        }
-
-        .event-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--info-cyan);
-        }
-
-        .event-item.confirmed {
-            border-left-color: var(--success-green);
-        }
-
-        .event-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--info-cyan);
-        }
-
-        .event-dot.confirmed {
-            background: var(--success-green);
-        }
-
-        .event-time {
-            font-weight: 600;
-            color: var(--primary-blue);
-            font-size: 0.9rem;
-            min-width: 80px;
-        }
-
-        .event-title {
-            flex: 1;
-            font-weight: 500;
-            color: var(--dark-text);
-            font-size: 0.95rem;
-        }
-
         /* Past Sessions */
         .past-sessions {
             background: var(--card-white);
@@ -1115,12 +1036,10 @@
             <p>Student Portal</p>
         </div>
         <ul class="nav-links">
-            <li><a href="dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-            <li><a href="my-courses.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
-            <li><a href="advising-sessions.html" class="active"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
-            <li><a href="academic-progress.html"><i class="fas fa-chart-line"></i> <span>Academic Progress</span></a></li>
-            <li><a href="reports.html"><i class="fas fa-file-alt"></i> <span>Reports</span></a></li>
-            <li><a href="help.html"><i class="fas fa-question-circle"></i> <span>Help Center</span></a></li>
+            <li><a href="Dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="Mycourse.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
+            <li><a href="AdvisingSessions.html" class="active"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
+            <li><a href="Activity.html"><i class="fas fa-chart-line"></i> <span>Activity</span></a></li>
         </ul>
     </nav>
 
@@ -1133,10 +1052,6 @@
                 <span>Advising Sessions</span>
             </div>
             <div class="profile-area">
-                <div class="notification" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </div>
                 <div class="profile-dropdown">
                     <div class="profile-btn" id="profileBtn">
                         <div class="profile-pic">MA</div>
@@ -1147,10 +1062,7 @@
                         <i class="fas fa-chevron-down dropdown-icon"></i>
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user-circle"></i> My Profile</a>
-                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</a>
-                        <a href="privacy.html" class="dropdown-item"><i class="fas fa-shield-alt"></i> Privacy & Security</a>
-                        <a href="help.html" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                        <a href="Profile.html" class="dropdown-item"><i class="fas fa-user-circle"></i> My Profile</a>
                         <a href="#" class="dropdown-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
@@ -1164,7 +1076,7 @@
                     <i class="fas fa-calendar"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>2</h3>
+                    <h3 id="upcomingCount">0</h3>
                     <p>Upcoming Sessions</p>
                 </div>
             </div>
@@ -1173,7 +1085,7 @@
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>5</h3>
+                    <h3 id="completedCount">0</h3>
                     <p>Sessions Completed</p>
                 </div>
             </div>
@@ -1182,7 +1094,7 @@
                     <i class="fas fa-clock"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>1</h3>
+                    <h3 id="pendingCount">0</h3>
                     <p>Pending Requests</p>
                 </div>
             </div>
@@ -1191,7 +1103,7 @@
                     <i class="fas fa-times-circle"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>0</h3>
+                    <h3 id="cancelledCount">0</h3>
                     <p>Cancelled Sessions</p>
                 </div>
             </div>
@@ -1216,7 +1128,7 @@
                 </select>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="sessionSearch" placeholder="Search sessions...">
+                    <input type="text" id="sessionSearch" placeholder="Search by title or advisor...">
                 </div>
             </div>
             <button class="btn btn-primary" id="newSessionBtn">
@@ -1230,135 +1142,14 @@
             <div class="upcoming-sessions">
                 <h3 class="section-title"><i class="fas fa-calendar-check"></i> Upcoming Sessions</h3>
                 <div class="session-list" id="upcomingSessions">
-                    <!-- Session 1 -->
-                    <div class="session-card confirmed">
-                        <div class="session-header">
-                            <div>
-                                <div class="session-title">Final Year Project Discussion</div>
-                                <span class="session-status status-confirmed">Confirmed</span>
-                            </div>
-                            <div class="session-time">
-                                <div style="font-weight: 600; color: var(--primary-blue);">Dec 20, 2025</div>
-                                <div style="color: var(--dark-text); opacity: 0.8;">10:00 AM - 11:00 AM</div>
-                            </div>
-                        </div>
-                        <div class="session-details">
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Advisor</h4>
-                                    <p>Dr. Siti Zulaikha</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Mode</h4>
-                                    <p>Virtual Meeting</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-tag"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Type</h4>
-                                    <p>Project Guidance</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-link"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Meeting Link</h4>
-                                    <p style="color: var(--accent-blue); cursor: pointer;">Join Meeting</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="session-actions">
-                            <button class="btn btn-sm btn-success join-session" data-session="1">
-                                <i class="fas fa-video"></i> Join Now
-                            </button>
-                            <button class="btn btn-sm btn-outline reschedule-session" data-session="1">
-                                <i class="fas fa-calendar-alt"></i> Reschedule
-                            </button>
-                            <button class="btn btn-sm btn-outline cancel-session" data-session="1">
-                                <i class="fas fa-times"></i> Cancel
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Session 2 -->
-                    <div class="session-card pending">
-                        <div class="session-header">
-                            <div>
-                                <div class="session-title">Semester 3 Planning</div>
-                                <span class="session-status status-pending">Pending</span>
-                            </div>
-                            <div class="session-time">
-                                <div style="font-weight: 600; color: var(--primary-blue);">Jan 15, 2026</div>
-                                <div style="color: var(--dark-text); opacity: 0.8;">2:30 PM - 3:30 PM</div>
-                            </div>
-                        </div>
-                        <div class="session-details">
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Advisor</h4>
-                                    <p>Dr. Ahmad Faiz</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Mode</h4>
-                                    <p>In-Person</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-tag"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Type</h4>
-                                    <p>Academic Planning</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>Location</h4>
-                                    <p>Faculty Office, BK-205</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="session-actions">
-                            <button class="btn btn-sm btn-primary edit-request" data-session="2">
-                                <i class="fas fa-edit"></i> Edit Request
-                            </button>
-                            <button class="btn btn-sm btn-outline cancel-request" data-session="2">
-                                <i class="fas fa-times"></i> Cancel Request
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Sessions will be populated by JavaScript -->
                 </div>
             </div>
 
             <!-- Calendar Section -->
             <div class="calendar-section">
                 <div class="calendar-header">
-                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> December 2025</h3>
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> <span id="currentMonthYear"></span></h3>
                     <div class="calendar-nav">
                         <button class="calendar-nav-btn" id="prevMonth">
                             <i class="fas fa-chevron-left"></i>
@@ -1382,20 +1173,6 @@
                 <div class="calendar-dates" id="calendarDates">
                     <!-- Calendar dates will be populated by JavaScript -->
                 </div>
-                
-                <div class="calendar-events">
-                    <h4 style="margin: 20px 0 15px 0; color: var(--primary-blue); font-weight: 600;">Today's Sessions</h4>
-                    <div class="event-item confirmed">
-                        <div class="event-dot confirmed"></div>
-                        <div class="event-time">10:00 AM</div>
-                        <div class="event-title">Meeting with Dr. Siti Zulaikha</div>
-                    </div>
-                    <div class="event-item">
-                        <div class="event-dot"></div>
-                        <div class="event-time">3:00 PM</div>
-                        <div class="event-title">Group Study Session</div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -1407,81 +1184,21 @@
                     <tr>
                         <th>Date</th>
                         <th>Advisor</th>
-                        <th>Topic</th>
-                        <th>Type</th>
+                        <th>Title</th>
                         <th>Notes</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Nov 15, 2025</strong><br>10:00 AM</td>
-                        <td>Dr. Siti Zulaikha</td>
-                        <td>Semester 2 Course Planning</td>
-                        <td>Academic Planning</td>
-                        <td class="notes-preview">Discussed course selection for next semester. Recommended CSC567 and ITT569.</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline view-notes" data-session="3">
-                                <i class="fas fa-eye"></i> View Notes
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Oct 28, 2025</strong><br>2:00 PM</td>
-                        <td>Dr. Ahmad Faiz</td>
-                        <td>Database Project Guidance</td>
-                        <td>Project Guidance</td>
-                        <td class="notes-preview">Reviewed database design. Suggested improvements for normalization.</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline view-notes" data-session="4">
-                                <i class="fas fa-eye"></i> View Notes
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sep 10, 2025</strong><br>11:30 AM</td>
-                        <td>Dr. Siti Zulaikha</td>
-                        <td>Academic Progress Review</td>
-                        <td>Progress Review</td>
-                        <td class="notes-preview">Good academic performance. Maintain CGPA above 3.5 for Dean's List.</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline view-notes" data-session="5">
-                                <i class="fas fa-eye"></i> View Notes
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Aug 22, 2025</strong><br>9:00 AM</td>
-                        <td>Dr. Norhayati</td>
-                        <td>Internship Opportunities</td>
-                        <td>Career Guidance</td>
-                        <td class="notes-preview">Discussed available internship positions for next summer.</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline view-notes" data-session="6">
-                                <i class="fas fa-eye"></i> View Notes
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Jul 15, 2025</strong><br>3:00 PM</td>
-                        <td>Dr. Rahmah</td>
-                        <td>Web Development Career Path</td>
-                        <td>Career Guidance</td>
-                        <td class="notes-preview">Explored different career paths in web development.</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline view-notes" data-session="7">
-                                <i class="fas fa-eye"></i> View Notes
-                            </button>
-                        </td>
-                    </tr>
+                <tbody id="pastSessionsTable">
+                    <!-- Past sessions will be populated by JavaScript -->
                 </tbody>
             </table>
         </div>
 
         <!-- Footer -->
         <footer>
-            <p><strong>Academic Advising & Progress Tracking System</strong> | UiTM Terengganu, Campus Chendering</p>
-            <p>© 2025 CSC584 - Enterprise Programming | <i class="fas fa-user-clock"></i> Last login: Dec 10, 2025 14:30 | <i class="fas fa-shield-alt"></i> Secure Connection</p>
+            <p><strong>Academic Advising & Progress Tracking System</strong></p>
+            <p>© 2025 CSC584 - Enterprise Programming</p>
         </footer>
     </div>
 
@@ -1494,101 +1211,36 @@
             </div>
             <div class="modal-body">
                 <form id="sessionRequestForm">
+                    <div class="form-group">
+                        <label class="form-label" for="sessionTitle">
+                            <i class="fas fa-comment-alt"></i> Session Title
+                        </label>
+                        <input type="text" class="form-control" id="sessionTitle" placeholder="Enter session title" required>
+                    </div>
+                    
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label" for="sessionType">
-                                <i class="fas fa-tag"></i> Session Type
+                            <label class="form-label" for="sessionDate">
+                                <i class="fas fa-calendar"></i> Session Date
                             </label>
-                            <select class="form-control" id="sessionType" required>
-                                <option value="">Select session type</option>
-                                <option value="academic">Academic Planning</option>
-                                <option value="course">Course Selection</option>
-                                <option value="career">Career Guidance</option>
-                                <option value="project">Project Guidance</option>
-                                <option value="personal">Personal Issues</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <input type="date" class="form-control" id="sessionDate" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="preferredAdvisor">
-                                <i class="fas fa-user-tie"></i> Preferred Advisor
+                            <label class="form-label" for="advisorID">
+                                <i class="fas fa-user-tie"></i> Advisor
                             </label>
-                            <select class="form-control" id="preferredAdvisor" required>
+                            <select class="form-control" id="advisorID" required>
                                 <option value="">Select advisor</option>
-                                <option value="zulaikha">Dr. Siti Zulaikha Zulkafli</option>
-                                <option value="ahmad">Dr. Ahmad Faiz</option>
-                                <option value="norhayati">Dr. Norhayati</option>
-                                <option value="rahmah">Dr. Rahmah</option>
-                                <option value="any">Any Available Advisor</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="preferredDate">
-                                <i class="fas fa-calendar"></i> Preferred Date
-                            </label>
-                            <input type="date" class="form-control" id="preferredDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="preferredTime">
-                                <i class="fas fa-clock"></i> Preferred Time
-                            </label>
-                            <select class="form-control" id="preferredTime" required>
-                                <option value="">Select time slot</option>
-                                <option value="9am">9:00 AM - 10:00 AM</option>
-                                <option value="10am">10:00 AM - 11:00 AM</option>
-                                <option value="11am">11:00 AM - 12:00 PM</option>
-                                <option value="2pm">2:00 PM - 3:00 PM</option>
-                                <option value="3pm">3:00 PM - 4:00 PM</option>
-                                <option value="4pm">4:00 PM - 5:00 PM</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="meetingMode">
-                                <i class="fas fa-video"></i> Meeting Mode
-                            </label>
-                            <select class="form-control" id="meetingMode" required>
-                                <option value="virtual">Virtual Meeting</option>
-                                <option value="inperson">In-Person</option>
-                                <option value="hybrid">Either</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="urgency">
-                                <i class="fas fa-exclamation-circle"></i> Urgency Level
-                            </label>
-                            <select class="form-control" id="urgency" required>
-                                <option value="normal">Normal</option>
-                                <option value="important">Important</option>
-                                <option value="urgent">Urgent</option>
+                                <!-- Advisors will be populated by JavaScript -->
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="sessionTopic">
-                            <i class="fas fa-comment-alt"></i> Session Topic / Title
+                        <label class="form-label" for="sessionNotes">
+                            <i class="fas fa-align-left"></i> Notes
                         </label>
-                        <input type="text" class="form-control" id="sessionTopic" placeholder="e.g., Final Year Project Discussion" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="sessionDescription">
-                            <i class="fas fa-align-left"></i> Detailed Description
-                        </label>
-                        <textarea class="form-control" id="sessionDescription" placeholder="Please describe what you would like to discuss during the session..." required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="relatedCourses">
-                            <i class="fas fa-book"></i> Related Courses (if any)
-                        </label>
-                        <input type="text" class="form-control" id="relatedCourses" placeholder="e.g., CSC584, CSC566">
+                        <textarea class="form-control" id="sessionNotes" placeholder="Enter notes for the session..."></textarea>
                     </div>
                     
                     <div style="display: flex; gap: 15px; margin-top: 30px;">
@@ -1608,7 +1260,7 @@
     <div class="modal" id="notesModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-sticky-note"></i> Session Notes</h3>
+                <h3 class="modal-title"><i class="fas fa-sticky-note"></i> Session Details</h3>
                 <button class="modal-close" id="notesModalClose">&times;</button>
             </div>
             <div class="modal-body" id="notesModalBody">
@@ -1618,27 +1270,154 @@
     </div>
 
     <script>
-        // Profile dropdown functionality
+        // Database structure from ERD
+        const database = {
+            // From ADVISOR table
+            advisors: [
+                {
+                    advisorID: 1,
+                    name: "Dr. Siti Zulaikha",
+                    email: "zulaikha@uitm.edu.my",
+                    password: "******",
+                    phoneNum: "012-3456789"
+                },
+                {
+                    advisorID: 2,
+                    name: "Dr. Ahmad Faiz",
+                    email: "ahmad.faiz@uitm.edu.my",
+                    password: "******",
+                    phoneNum: "013-4567890"
+                },
+                {
+                    advisorID: 3,
+                    name: "Dr. Norhayati",
+                    email: "norhayati@uitm.edu.my",
+                    password: "******",
+                    phoneNum: "014-5678901"
+                },
+                {
+                    advisorID: 4,
+                    name: "Dr. Rahmah",
+                    email: "rahmah@uitm.edu.my",
+                    password: "******",
+                    phoneNum: "015-6789012"
+                }
+            ],
+            
+            // From STUDENT table
+            students: [
+                {
+                    studentID: 1,
+                    name: "M. Amar Ghazali",
+                    email: "amar@student.uitm.edu.my",
+                    password: "******",
+                    program: "Computer Science",
+                    yearOfStudy: 3,
+                    advisorID: 1
+                },
+                {
+                    studentID: 2,
+                    name: "Ali bin Ahmad",
+                    email: "ali@student.uitm.edu.my",
+                    password: "******",
+                    program: "Information Technology",
+                    yearOfStudy: 2,
+                    advisorID: 2
+                }
+            ],
+            
+            // From ADVISING_SESSION table
+            advisingSessions: [
+                {
+                    sessionID: 1,
+                    title: "Final Year Project Discussion",
+                    sessionDate: "2025-12-20T10:00:00",
+                    notes: "Discussed project timeline and requirements. Student needs to submit proposal by next week.",
+                    advisorID: 1,
+                    studentID: 1,
+                    status: "confirmed"
+                },
+                {
+                    sessionID: 2,
+                    title: "Semester 3 Course Planning",
+                    sessionDate: "2026-01-15T14:30:00",
+                    notes: "Planning courses for next semester. Recommended CSC567 and ITT569.",
+                    advisorID: 2,
+                    studentID: 1,
+                    status: "pending"
+                },
+                {
+                    sessionID: 3,
+                    title: "Semester 2 Course Planning",
+                    sessionDate: "2025-11-15T10:00:00",
+                    notes: "Discussed course selection for next semester. Recommended CSC567 and ITT569.",
+                    advisorID: 1,
+                    studentID: 1,
+                    status: "completed"
+                },
+                {
+                    sessionID: 4,
+                    title: "Database Project Guidance",
+                    sessionDate: "2025-10-28T14:00:00",
+                    notes: "Reviewed database design. Suggested improvements for normalization.",
+                    advisorID: 2,
+                    studentID: 1,
+                    status: "completed"
+                },
+                {
+                    sessionID: 5,
+                    title: "Academic Progress Review",
+                    sessionDate: "2025-09-10T11:30:00",
+                    notes: "Good academic performance. Maintain CGPA above 3.5 for Dean's List.",
+                    advisorID: 1,
+                    studentID: 1,
+                    status: "completed"
+                },
+                {
+                    sessionID: 6,
+                    title: "Internship Opportunities",
+                    sessionDate: "2025-08-22T09:00:00",
+                    notes: "Discussed available internship positions for next summer.",
+                    advisorID: 3,
+                    studentID: 1,
+                    status: "completed"
+                },
+                {
+                    sessionID: 7,
+                    title: "Web Development Career Path",
+                    sessionDate: "2025-07-15T15:00:00",
+                    notes: "Explored different career paths in web development.",
+                    advisorID: 4,
+                    studentID: 1,
+                    status: "completed"
+                }
+            ]
+        };
+
+        // Current user (assuming logged in as first student)
+        const currentStudent = database.students[0];
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the page with data from ERD
+            initializePage();
+            
+            // Profile dropdown functionality
             const profileBtn = document.getElementById('profileBtn');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const dropdownBackdrop = document.getElementById('dropdownBackdrop');
-            const notificationBtn = document.getElementById('notificationBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
             
             let isDropdownOpen = false;
             
-            // Toggle dropdown on profile button click
             profileBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 toggleDropdown();
             });
             
-            // Close dropdown when clicking on backdrop
             dropdownBackdrop.addEventListener('click', function() {
                 closeDropdown();
             });
             
-            // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 if (isDropdownOpen && 
                     !profileBtn.contains(e.target) && 
@@ -1647,7 +1426,6 @@
                 }
             });
             
-            // Close dropdown when pressing Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && isDropdownOpen) {
                     closeDropdown();
@@ -1676,62 +1454,350 @@
                 isDropdownOpen = false;
             }
             
-            // Dropdown menu item clicks
-            document.querySelectorAll('.dropdown-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const action = this.textContent.trim();
+            // FIXED: Only handle logout button click
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // Only prevent default for logout
+                closeDropdown();
+                
+                if (confirm('Are you sure you want to logout?')) {
+                    alert('Logging out...');
+                    // In a real app: window.location.href = '/logout';
+                }
+            });
+
+            // Profile link will work automatically because href="profile.html" is set
+            // and we're NOT preventing its default behavior
+
+            // Initialize page with data
+            function initializePage() {
+                // Update student info in header
+                document.querySelector('.profile-name').textContent = currentStudent.name;
+                
+                // Count sessions by status
+                const upcomingCount = database.advisingSessions.filter(session => 
+                    session.status === 'confirmed' && 
+                    new Date(session.sessionDate) > new Date()
+                ).length;
+                
+                const completedCount = database.advisingSessions.filter(session => 
+                    session.status === 'completed'
+                ).length;
+                
+                const pendingCount = database.advisingSessions.filter(session => 
+                    session.status === 'pending'
+                ).length;
+                
+                const cancelledCount = database.advisingSessions.filter(session => 
+                    session.status === 'cancelled'
+                ).length;
+                
+                // Update stats
+                document.getElementById('upcomingCount').textContent = upcomingCount;
+                document.getElementById('completedCount').textContent = completedCount;
+                document.getElementById('pendingCount').textContent = pendingCount;
+                document.getElementById('cancelledCount').textContent = cancelledCount;
+                
+                // Display upcoming sessions
+                displayUpcomingSessions();
+                
+                // Display past sessions
+                displayPastSessions();
+                
+                // Initialize calendar
+                initializeCalendar();
+                
+                // Populate advisor dropdown in modal
+                populateAdvisorDropdown();
+            }
+            
+            function displayUpcomingSessions() {
+                const upcomingSessionsContainer = document.getElementById('upcomingSessions');
+                upcomingSessionsContainer.innerHTML = '';
+                
+                const upcomingSessions = database.advisingSessions.filter(session => 
+                    (session.status === 'confirmed' || session.status === 'pending') && 
+                    new Date(session.sessionDate) > new Date() &&
+                    session.studentID === currentStudent.studentID
+                ).sort((a, b) => new Date(a.sessionDate) - new Date(b.sessionDate));
+                
+                if (upcomingSessions.length === 0) {
+                    upcomingSessionsContainer.innerHTML = `
+                        <div class="session-card" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--light-blue); margin-bottom: 15px;"></i>
+                            <h3 style="color: var(--primary-blue); margin-bottom: 10px;">No Upcoming Sessions</h3>
+                            <p style="color: var(--dark-text); opacity: 0.7;">You don't have any upcoming advising sessions.</p>
+                            <button class="btn btn-primary" id="requestFirstSession" style="margin-top: 20px;">
+                                <i class="fas fa-plus-circle"></i> Request Your First Session
+                            </button>
+                        </div>
+                    `;
                     
-                    switch(action) {
-                        case 'My Profile':
-                            alert('Opening My Profile page...');
-                            break;
-                        case 'Account Settings':
-                            alert('Opening Account Settings...');
-                            break;
-                        case 'Privacy & Security':
-                            alert('Opening Privacy & Security settings...');
-                            break;
-                        case 'Help & Support':
-                            alert('Opening Help Center...');
-                            break;
-                        case 'Logout':
-                            if(confirm('Are you sure you want to logout?')) {
-                                alert('Logging out... Redirecting to login page.');
-                                // In real app: window.location.href = '/logout';
-                            }
-                            break;
-                    }
+                    document.getElementById('requestFirstSession')?.addEventListener('click', function() {
+                        document.getElementById('newSessionModal').classList.add('show');
+                        dropdownBackdrop.classList.add('active');
+                    });
                     
-                    closeDropdown();
+                    return;
+                }
+                
+                upcomingSessions.forEach(session => {
+                    const advisor = database.advisors.find(a => a.advisorID === session.advisorID);
+                    const sessionDate = new Date(session.sessionDate);
+                    const formattedDate = sessionDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    const formattedTime = sessionDate.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    const sessionCard = document.createElement('div');
+                    sessionCard.className = `session-card ${session.status}`;
+                    sessionCard.dataset.sessionId = session.sessionID;
+                    
+                    sessionCard.innerHTML = `
+                        <div class="session-header">
+                            <div>
+                                <div class="session-title">${session.title}</div>
+                                <span class="session-status status-${session.status}">
+                                    ${session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                                </span>
+                            </div>
+                            <div class="session-time">
+                                <div style="font-weight: 600; color: var(--primary-blue);">${formattedDate}</div>
+                                <div style="color: var(--dark-text); opacity: 0.8;">${formattedTime}</div>
+                            </div>
+                        </div>
+                        <div class="session-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Advisor</h4>
+                                    <p>${advisor.name}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Date</h4>
+                                    <p>${formattedDate}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Time</h4>
+                                    <p>${formattedTime}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-sticky-note"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Notes Preview</h4>
+                                    <p class="notes-preview">${session.notes.substring(0, 30)}${session.notes.length > 30 ? '...' : ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="session-actions">
+                            ${session.status === 'confirmed' ? `
+                                <button class="btn btn-sm btn-success join-session" data-session="${session.sessionID}">
+                                    <i class="fas fa-video"></i> Join Session
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-sm btn-outline view-details" data-session="${session.sessionID}">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            ${session.status === 'pending' ? `
+                                <button class="btn btn-sm btn-outline cancel-session" data-session="${session.sessionID}">
+                                    <i class="fas fa-times"></i> Cancel Request
+                                </button>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    upcomingSessionsContainer.appendChild(sessionCard);
                 });
-            });
+                
+                // Add event listeners to buttons
+                document.querySelectorAll('.join-session').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const sessionId = this.dataset.session;
+                        const session = database.advisingSessions.find(s => s.sessionID == sessionId);
+                        alert(`Joining session: ${session.title}\n\nThis would open the meeting link in a real application.`);
+                    });
+                });
+                
+                document.querySelectorAll('.view-details').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const sessionId = this.dataset.session;
+                        showSessionDetails(sessionId);
+                    });
+                });
+                
+                document.querySelectorAll('.cancel-session').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const sessionId = this.dataset.session;
+                        if (confirm('Are you sure you want to cancel this session request?')) {
+                            // In a real app, this would update the database
+                            const session = database.advisingSessions.find(s => s.sessionID == sessionId);
+                            session.status = 'cancelled';
+                            alert('Session request cancelled successfully.');
+                            initializePage(); // Refresh the page
+                        }
+                    });
+                });
+            }
             
-            // Notification bell click
-            notificationBtn.addEventListener('click', function() {
-                const notificationCount = document.querySelector('.notification-badge').textContent;
-                alert(`You have ${notificationCount} unread notifications:\n\n1. 🔔 New session request approved\n2. 📅 Reminder: Meeting tomorrow at 10 AM\n3. 📝 Session notes updated for Nov 15 meeting`);
-                this.querySelector('.notification-badge').textContent = '0';
-                this.querySelector('.notification-badge').style.backgroundColor = '#6b7280';
-            });
+            function displayPastSessions() {
+                const pastSessionsTable = document.getElementById('pastSessionsTable');
+                pastSessionsTable.innerHTML = '';
+                
+                const pastSessions = database.advisingSessions.filter(session => 
+                    session.status === 'completed' &&
+                    session.studentID === currentStudent.studentID
+                ).sort((a, b) => new Date(b.sessionDate) - new Date(a.sessionDate));
+                
+                pastSessions.forEach(session => {
+                    const advisor = database.advisors.find(a => a.advisorID === session.advisorID);
+                    const sessionDate = new Date(session.sessionDate);
+                    const formattedDate = sessionDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                    const formattedTime = sessionDate.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${formattedDate}</strong><br>${formattedTime}</td>
+                        <td>${advisor.name}</td>
+                        <td>${session.title}</td>
+                        <td class="notes-preview">${session.notes.substring(0, 50)}${session.notes.length > 50 ? '...' : ''}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline view-notes" data-session="${session.sessionID}">
+                                <i class="fas fa-eye"></i> View Notes
+                            </button>
+                        </td>
+                    `;
+                    
+                    pastSessionsTable.appendChild(row);
+                });
+                
+                // Add event listeners to view notes buttons
+                document.querySelectorAll('.view-notes').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const sessionId = this.dataset.session;
+                        showSessionDetails(sessionId);
+                    });
+                });
+            }
             
-            // Calendar functionality
-            function generateCalendar() {
+            function showSessionDetails(sessionId) {
+                const session = database.advisingSessions.find(s => s.sessionID == sessionId);
+                const advisor = database.advisors.find(a => a.advisorID === session.advisorID);
+                const student = database.students.find(s => s.studentID === session.studentID);
+                
+                const sessionDate = new Date(session.sessionDate);
+                const formattedDate = sessionDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+                const formattedTime = sessionDate.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                document.getElementById('notesModalBody').innerHTML = `
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 10px;">${session.title}</h4>
+                        <div style="display: flex; align-items: center; gap: 20px; color: var(--dark-text); opacity: 0.8; font-size: 0.95rem;">
+                            <div><i class="fas fa-calendar"></i> ${formattedDate}</div>
+                            <div><i class="fas fa-clock"></i> ${formattedTime}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="margin-bottom: 25px;">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user-tie"></i> Advisor
+                            </label>
+                            <div style="padding: 10px 0; font-weight: 500;">${advisor.name}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user-graduate"></i> Student
+                            </label>
+                            <div style="padding: 10px 0; font-weight: 500;">${student.name}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-sticky-note"></i> Session Notes
+                        </label>
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                            ${session.notes}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 25px;">
+                        <button class="btn btn-primary" onclick="window.print()" style="width: 100%;">
+                            <i class="fas fa-print"></i> Print Session Details
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('notesModal').classList.add('show');
+                dropdownBackdrop.classList.add('active');
+            }
+            
+            function initializeCalendar() {
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+                
+                // Set current month/year display
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                                   "July", "August", "September", "October", "November", "December"];
+                document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+                
+                // Generate calendar
+                generateCalendar(currentMonth, currentYear);
+                
+                // Add event listeners to calendar navigation
+                document.getElementById('prevMonth').addEventListener('click', function() {
+                    // In a real app, this would navigate to previous month
+                    alert('Previous month - would update calendar in real application');
+                });
+                
+                document.getElementById('nextMonth').addEventListener('click', function() {
+                    // In a real app, this would navigate to next month
+                    alert('Next month - would update calendar in real application');
+                });
+            }
+            
+            function generateCalendar(month, year) {
                 const calendarDates = document.getElementById('calendarDates');
                 calendarDates.innerHTML = '';
                 
-                const currentDate = new Date();
-                const currentMonth = currentDate.getMonth();
-                const currentYear = currentDate.getFullYear();
-                
-                // Get first day of month
-                const firstDay = new Date(currentYear, currentMonth, 1);
-                const lastDay = new Date(currentYear, currentMonth + 1, 0);
-                
-                // Days in month
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
                 const daysInMonth = lastDay.getDate();
-                
-                // Start day (0 = Sunday, 1 = Monday, etc.)
                 const startDay = firstDay.getDay();
                 
                 // Add empty cells for days before first day of month
@@ -1749,12 +1815,21 @@
                     dateCell.textContent = day;
                     
                     // Mark current day
-                    if (day === currentDate.getDate() && currentMonth === currentDate.getMonth()) {
+                    const today = new Date();
+                    if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                         dateCell.classList.add('active');
                     }
                     
-                    // Mark days with sessions (example: 10th, 15th, 20th)
-                    if ([10, 15, 20, 25].includes(day)) {
+                    // Check if this date has any sessions
+                    const hasSession = database.advisingSessions.some(session => {
+                        const sessionDate = new Date(session.sessionDate);
+                        return sessionDate.getDate() === day && 
+                               sessionDate.getMonth() === month && 
+                               sessionDate.getFullYear() === year &&
+                               session.studentID === currentStudent.studentID;
+                    });
+                    
+                    if (hasSession) {
                         dateCell.classList.add('has-session');
                     }
                     
@@ -1762,19 +1837,17 @@
                 }
             }
             
-            // Initialize calendar
-            generateCalendar();
-            
-            // Calendar navigation
-            document.getElementById('prevMonth').addEventListener('click', function() {
-                alert('Previous month clicked');
-                // In real app: update calendar to show previous month
-            });
-            
-            document.getElementById('nextMonth').addEventListener('click', function() {
-                alert('Next month clicked');
-                // In real app: update calendar to show next month
-            });
+            function populateAdvisorDropdown() {
+                const advisorSelect = document.getElementById('advisorID');
+                advisorSelect.innerHTML = '<option value="">Select advisor</option>';
+                
+                database.advisors.forEach(advisor => {
+                    const option = document.createElement('option');
+                    option.value = advisor.advisorID;
+                    option.textContent = advisor.name;
+                    advisorSelect.appendChild(option);
+                });
+            }
             
             // Session filtering
             const sessionTypeFilter = document.getElementById('sessionTypeFilter');
@@ -1782,54 +1855,61 @@
             const sessionSearch = document.getElementById('sessionSearch');
             
             function filterSessions() {
-                const sessionCards = document.querySelectorAll('.session-card');
-                const tableRows = document.querySelectorAll('.session-table tbody tr');
-                
-                const typeValue = sessionTypeFilter.value;
-                const statusValue = statusFilter.value;
                 const searchValue = sessionSearch.value.toLowerCase();
                 
-                // Filter session cards
-                sessionCards.forEach(card => {
-                    const cardStatus = card.classList.contains('confirmed') ? 'confirmed' : 
-                                     card.classList.contains('pending') ? 'pending' : 
-                                     card.classList.contains('cancelled') ? 'cancelled' : 'completed';
+                // Filter upcoming sessions
+                const upcomingSessions = database.advisingSessions.filter(session => 
+                    (session.status === 'confirmed' || session.status === 'pending') && 
+                    new Date(session.sessionDate) > new Date() &&
+                    session.studentID === currentStudent.studentID
+                );
+                
+                const filteredUpcoming = upcomingSessions.filter(session => {
+                    const advisor = database.advisors.find(a => a.advisorID === session.advisorID);
+                    const matchesSearch = searchValue === '' || 
+                        session.title.toLowerCase().includes(searchValue) ||
+                        advisor.name.toLowerCase().includes(searchValue);
                     
-                    const cardTitle = card.querySelector('.session-title').textContent.toLowerCase();
-                    
-                    let show = true;
-                    
-                    // Filter by type (simplified - in real app, would have data-type attribute)
-                    if (typeValue !== 'all') {
-                        // This is simplified - real implementation would check session type
-                        if (typeValue === 'academic' && !cardTitle.includes('planning') && !cardTitle.includes('academic')) show = false;
-                        if (typeValue === 'course' && !cardTitle.includes('course')) show = false;
-                        if (typeValue === 'career' && !cardTitle.includes('career') && !cardTitle.includes('internship')) show = false;
-                    }
-                    
-                    // Filter by status
-                    if (statusValue !== 'all' && cardStatus !== statusValue) {
-                        show = false;
-                    }
-                    
-                    // Filter by search
-                    if (searchValue && !cardTitle.includes(searchValue)) {
-                        show = false;
-                    }
-                    
-                    card.style.display = show ? 'block' : 'none';
+                    return matchesSearch;
                 });
                 
-                // Filter table rows
+                // Re-render upcoming sessions with filtered results
+                const upcomingSessionsContainer = document.getElementById('upcomingSessions');
+                if (filteredUpcoming.length === 0) {
+                    upcomingSessionsContainer.innerHTML = `
+                        <div class="session-card" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-search" style="font-size: 3rem; color: var(--light-blue); margin-bottom: 15px;"></i>
+                            <h3 style="color: var(--primary-blue); margin-bottom: 10px;">No Matching Sessions</h3>
+                            <p style="color: var(--dark-text); opacity: 0.7;">No upcoming sessions match your search criteria.</p>
+                        </div>
+                    `;
+                } else {
+                    // In a real app, you would re-render the filtered sessions
+                    // For simplicity, we're just showing an alert
+                    alert(`Found ${filteredUpcoming.length} session(s) matching your search.`);
+                }
+                
+                // Filter past sessions
+                const pastSessions = database.advisingSessions.filter(session => 
+                    session.status === 'completed' &&
+                    session.studentID === currentStudent.studentID
+                );
+                
+                const filteredPast = pastSessions.filter(session => {
+                    const advisor = database.advisors.find(a => a.advisorID === session.advisorID);
+                    const matchesSearch = searchValue === '' || 
+                        session.title.toLowerCase().includes(searchValue) ||
+                        advisor.name.toLowerCase().includes(searchValue);
+                    
+                    return matchesSearch;
+                });
+                
+                // Update past sessions table
+                const tableRows = document.querySelectorAll('#pastSessionsTable tr');
                 tableRows.forEach(row => {
                     const rowText = row.textContent.toLowerCase();
-                    let show = true;
-                    
-                    if (searchValue && !rowText.includes(searchValue)) {
-                        show = false;
-                    }
-                    
-                    row.style.display = show ? 'table-row' : 'none';
+                    const shouldShow = searchValue === '' || rowText.includes(searchValue);
+                    row.style.display = shouldShow ? 'table-row' : 'none';
                 });
             }
             
@@ -1846,7 +1926,7 @@
             
             // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('preferredDate').min = today;
+            document.getElementById('sessionDate').min = today;
             
             newSessionBtn.addEventListener('click', function() {
                 newSessionModal.classList.add('show');
@@ -1865,6 +1945,7 @@
             
             dropdownBackdrop.addEventListener('click', function() {
                 newSessionModal.classList.remove('show');
+                notesModal.classList.remove('show');
                 this.classList.remove('active');
             });
             
@@ -1872,189 +1953,33 @@
             sessionRequestForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const formData = {
-                    type: document.getElementById('sessionType').value,
-                    advisor: document.getElementById('preferredAdvisor').value,
-                    date: document.getElementById('preferredDate').value,
-                    time: document.getElementById('preferredTime').value,
-                    mode: document.getElementById('meetingMode').value,
-                    urgency: document.getElementById('urgency').value,
-                    topic: document.getElementById('sessionTopic').value,
-                    description: document.getElementById('sessionDescription').value,
-                    courses: document.getElementById('relatedCourses').value
+                const newSession = {
+                    sessionID: database.advisingSessions.length + 1,
+                    title: document.getElementById('sessionTitle').value,
+                    sessionDate: document.getElementById('sessionDate').value + 'T10:00:00', // Default time
+                    notes: document.getElementById('sessionNotes').value,
+                    advisorID: parseInt(document.getElementById('advisorID').value),
+                    studentID: currentStudent.studentID,
+                    status: 'pending'
                 };
                 
-                // Simulate form submission
-                alert(`Session request submitted successfully!\n\nTopic: ${formData.topic}\nDate: ${formData.date}\nAdvisor: ${formData.advisor}\n\nYou will receive a confirmation email once your advisor approves the request.`);
+                // Add to database
+                database.advisingSessions.push(newSession);
+                
+                alert(`Session request submitted successfully!\n\nTitle: ${newSession.title}\nDate: ${newSession.sessionDate.split('T')[0]}\nStatus: Pending\n\nYou will receive a confirmation once your advisor approves the request.`);
                 
                 // Reset form and close modal
                 sessionRequestForm.reset();
                 newSessionModal.classList.remove('show');
                 dropdownBackdrop.classList.remove('active');
+                
+                // Refresh the page to show new session
+                initializePage();
             });
             
-            // Session actions
-            document.querySelectorAll('.join-session').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    alert(`Joining session ${sessionId}...\nMeeting link would open in a new window.`);
-                });
-            });
-            
-            document.querySelectorAll('.reschedule-session').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    alert(`Opening reschedule form for session ${sessionId}...`);
-                });
-            });
-            
-            document.querySelectorAll('.cancel-session').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    if (confirm('Are you sure you want to cancel this session?')) {
-                        alert(`Session ${sessionId} cancelled successfully.`);
-                        // In real app: update UI to reflect cancellation
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.edit-request').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    alert(`Editing request for session ${sessionId}...`);
-                });
-            });
-            
-            document.querySelectorAll('.cancel-request').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    if (confirm('Are you sure you want to cancel this request?')) {
-                        alert(`Request ${sessionId} cancelled successfully.`);
-                        // In real app: update UI to reflect cancellation
-                    }
-                });
-            });
-            
-            // Session Notes Modal
-            const notesModal = document.getElementById('notesModal');
-            const notesModalClose = document.getElementById('notesModalClose');
-            const viewNotesButtons = document.querySelectorAll('.view-notes');
-            
-            // Session notes data
-            const sessionNotes = {
-                '3': {
-                    title: 'Semester 2 Course Planning',
-                    date: 'November 15, 2025, 10:00 AM',
-                    advisor: 'Dr. Siti Zulaikha Zulkafli',
-                    type: 'Academic Planning',
-                    notes: `Student: Muhammad Amar Ghazali
-Advisor: Dr. Siti Zulaikha Zulkafli
-Date: November 15, 2025
-Time: 10:00 AM - 11:00 AM
-
-SUMMARY:
-Discussed course selection for Semester 2. Student is currently maintaining excellent academic performance with a CGPA of 3.75.
-
-RECOMMENDATIONS:
-1. Enroll in CSC567 - Software Engineering (Core requirement)
-2. Enroll in ITT569 - Web Application Development (Elective)
-3. Consider CSC568 as backup if ITT569 is full
-4. Maintain current study habits for Dean's List eligibility
-
-ACTION ITEMS:
-- Student to register for recommended courses during next registration window
-- Schedule follow-up session after mid-semester exams
-- Submit internship application by December 15, 2025
-
-ADDITIONAL NOTES:
-Student expressed interest in web development specialization. Advised to complete ITT569 and consider advanced web courses in subsequent semesters.`,
-                    followUp: 'Schedule next session for mid-semester review'
-                },
-                '4': {
-                    title: 'Database Project Guidance',
-                    date: 'October 28, 2025, 2:00 PM',
-                    advisor: 'Dr. Ahmad Faiz',
-                    type: 'Project Guidance',
-                    notes: `Student: Muhammad Amar Ghazali
-Advisor: Dr. Ahmad Faiz
-Date: October 28, 2025
-Time: 2:00 PM - 3:00 PM
-
-PROJECT REVIEW:
-Reviewed database design for CSC566 final project. Student has designed a library management system with 8 tables.
-
-FEEDBACK:
-1. Normalization: Suggest moving book_author to separate table
-2. Indexing: Add indexes on frequently searched columns (book_title, member_name)
-3. Relationships: Review foreign key constraints
-4. Performance: Consider views for common queries
-
-RECOMMENDATIONS:
-- Implement suggested normalization changes
-- Add proper indexing strategy
-- Include stored procedures for common operations
-- Test with sample data of 10,000 records
-
-NEXT STEPS:
-- Submit revised ER diagram by November 5
-- Schedule demo session after implementation
-- Consider presenting project at department showcase`,
-                    followUp: 'Submit revised design by November 5, 2025'
-                }
-            };
-            
-            // Open notes modal
-            viewNotesButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const sessionId = this.dataset.session;
-                    const notes = sessionNotes[sessionId];
-                    
-                    if (notes) {
-                        document.getElementById('notesModalBody').innerHTML = `
-                            <div style="margin-bottom: 25px;">
-                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">${notes.title}</h4>
-                                <div style="display: flex; align-items: center; gap: 20px; color: var(--dark-text); opacity: 0.8; font-size: 0.95rem;">
-                                    <div><i class="fas fa-calendar"></i> ${notes.date}</div>
-                                    <div><i class="fas fa-user-tie"></i> ${notes.advisor}</div>
-                                    <div><i class="fas fa-tag"></i> ${notes.type}</div>
-                                </div>
-                            </div>
-                            
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
-                                <h5 style="color: var(--primary-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                    <i class="fas fa-sticky-note"></i> Session Notes
-                                </h5>
-                                <pre style="white-space: pre-wrap; font-family: inherit; color: var(--dark-text); line-height: 1.6;">${notes.notes}</pre>
-                            </div>
-                            
-                            <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 10px; border-left: 4px solid var(--accent-blue);">
-                                <h5 style="color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                                    <i class="fas fa-flag"></i> Follow-up Action
-                                </h5>
-                                <p style="color: var(--dark-text); font-weight: 500;">${notes.followUp}</p>
-                            </div>
-                            
-                            <div style="margin-top: 25px; display: flex; gap: 15px;">
-                                <button class="btn btn-outline" onclick="window.location.href='session-details.html?id=${sessionId}'" style="flex: 1;">
-                                    <i class="fas fa-external-link-alt"></i> View Full Details
-                                </button>
-                                <button class="btn btn-primary" onclick="window.print()" style="flex: 1;">
-                                    <i class="fas fa-print"></i> Print Notes
-                                </button>
-                            </div>
-                        `;
-                        
-                        notesModal.classList.add('show');
-                        dropdownBackdrop.classList.add('active');
-                    } else {
-                        alert('Session notes not available yet.');
-                    }
-                });
-            });
-            
-            // Close notes modal
-            notesModalClose.addEventListener('click', function() {
-                notesModal.classList.remove('show');
+            // Session Notes Modal close
+            document.getElementById('notesModalClose').addEventListener('click', function() {
+                document.getElementById('notesModal').classList.remove('show');
                 dropdownBackdrop.classList.remove('active');
             });
             

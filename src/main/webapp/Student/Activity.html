@@ -916,6 +916,64 @@
                 font-size: 1.3rem;
             }
         }
+        /* Add this to your existing CSS, in the profile area section */
+        .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .profile-dropdown-menu a:hover {
+            background: #f8fafc;
+            color: var(--primary-blue);
+        }
+
+        .profile-dropdown-menu a:last-child {
+            border-bottom: none;
+            color: var(--danger-red);
+        }
+
+        .profile-dropdown-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-dropdown-menu .dropdown-header {
+            padding: 15px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        /* Add rotation to dropdown icon when menu is open */
+        .profile-dropdown.active .dropdown-icon {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
@@ -927,12 +985,10 @@
             <p>Student Portal</p>
         </div>
         <ul class="nav-links">
-            <li><a href="dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-            <li><a href="my-courses.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
-            <li><a href="advising-sessions.html"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
-            <li><a href="activities.html" class="active"><i class="fas fa-running"></i> <span>Activities</span></a></li>
-            <li><a href="academic-progress.html"><i class="fas fa-chart-line"></i> <span>Progress</span></a></li>
-            <li><a href="reports.html"><i class="fas fa-file-alt"></i> <span>Reports</span></a></li>
+            <li><a href="Dashboard.html" class="active"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="Mycourse.html"><i class="fas fa-book"></i> <span>My Courses</span></a></li>
+            <li><a href="AdvisingSessions.html"><i class="fas fa-calendar-alt"></i> <span>Advising Sessions</span></a></li>
+            <li><a href="Activity.html"><i class="fas fa-chart-line"></i> <span>Activity</span></a></li>
         </ul>
     </nav>
 
@@ -945,11 +1001,9 @@
                 <span>Activities & Programs</span>
             </div>
             <div class="profile-area">
-                <div class="notification" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">5</span>
-                </div>
-                <div class="profile-dropdown">
+                
+                <!-- Replace your current profile-dropdown div with this -->
+                <div class="profile-dropdown" id="profileDropdown">
                     <div class="profile-btn" id="profileBtn">
                         <div class="profile-pic">MA</div>
                         <div class="profile-info">
@@ -957,6 +1011,17 @@
                             <div class="profile-role">Student</div>
                         </div>
                         <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </div>
+                    <div class="profile-dropdown-menu" id="profileMenu">
+                        <div class="dropdown-header">
+                            <i class="fas fa-user-circle"></i> Account
+                        </div>
+                        <a href="Profile.html">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Log Out
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1530,37 +1595,64 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Notification bell
-            const notificationBtn = document.getElementById('notificationBtn');
-            notificationBtn.addEventListener('click', function() {
-                const count = this.querySelector('.notification-badge').textContent;
-                alert(`You have ${count} activity notifications:\n\n1. 🎯 New: Full-Stack Web Development Workshop\n2. 📅 Reminder: Programming Club meeting tomorrow\n3. ✅ Completed: Volunteer hours approved\n4. 🏆 You earned 20 co-curricular points!\n5. 🔔 Registration closing soon: Hackathon 2026`);
-                this.querySelector('.notification-badge').textContent = '0';
-                this.querySelector('.notification-badge').style.backgroundColor = '#6b7280';
-            });
+            console.log('Page loaded - initializing...');
+            
+            // Notification bell - FIXED SELECTOR
+            const notificationBtn = document.querySelector('.notification');
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    const badge = this.querySelector('.notification-badge');
+                    const count = badge ? badge.textContent : '0';
+                    alert(`You have ${count} activity notifications:\n\n1. 🎯 New: Full-Stack Web Development Workshop\n2. 📅 Reminder: Programming Club meeting tomorrow\n3. ✅ Completed: Volunteer hours approved\n4. 🏆 You earned 20 co-curricular points!\n5. 🔔 Registration closing soon: Hackathon 2026`);
+                    if (badge) {
+                        badge.textContent = '0';
+                        badge.style.backgroundColor = '#6b7280';
+                    }
+                });
+                console.log('Notification button initialized');
+            }
 
-            // Category filtering
+            // Get all elements
             const categoryButtons = document.querySelectorAll('.category-btn');
             const activityCards = document.querySelectorAll('.activity-card');
             const categoryFilter = document.getElementById('categoryFilter');
             const statusFilter = document.getElementById('statusFilter');
             const sortFilter = document.getElementById('sortFilter');
             const activitySearch = document.getElementById('activitySearch');
+            
+            console.log('Elements found:', {
+                categoryButtons: categoryButtons.length,
+                activityCards: activityCards.length,
+                categoryFilter: !!categoryFilter,
+                statusFilter: !!statusFilter,
+                sortFilter: !!sortFilter,
+                activitySearch: !!activitySearch
+            });
 
+            // Filter state
+            let currentFilter = {
+                category: 'all',
+                status: 'all',
+                search: '',
+                sort: 'newest'
+            };
+
+            // Category button clicks
             categoryButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
+                    console.log('Category button clicked:', this.dataset.category);
                     categoryButtons.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
+                    currentFilter.category = this.dataset.category;
                     filterActivities();
                 });
             });
 
+            // Main filter function
             function filterActivities() {
-                const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-                const selectedCategory = categoryFilter.value;
-                const selectedStatus = statusFilter.value;
-                const searchValue = activitySearch.value.toLowerCase();
-
+                console.log('Filtering activities with:', currentFilter);
+                
+                let visibleCount = 0;
                 activityCards.forEach(card => {
                     const cardCategory = card.dataset.category;
                     const cardStatus = card.dataset.status;
@@ -1569,66 +1661,136 @@
 
                     let show = true;
 
-                    // Filter by active category button
-                    if (activeCategory !== 'all' && cardCategory !== activeCategory) {
-                        show = false;
-                    }
-
-                    // Filter by dropdown category
-                    if (selectedCategory !== 'all' && cardCategory !== selectedCategory) {
+                    // Filter by category
+                    if (currentFilter.category !== 'all' && cardCategory !== currentFilter.category) {
                         show = false;
                     }
 
                     // Filter by status
-                    if (selectedStatus !== 'all' && cardStatus !== selectedStatus) {
+                    if (currentFilter.status !== 'all' && cardStatus !== currentFilter.status) {
                         show = false;
                     }
 
                     // Filter by search
-                    if (searchValue && !cardTitle.includes(searchValue) && !cardDesc.includes(searchValue)) {
-                        show = false;
+                    if (currentFilter.search.trim() !== '') {
+                        const searchValue = currentFilter.search.toLowerCase().trim();
+                        if (!cardTitle.includes(searchValue) && !cardDesc.includes(searchValue)) {
+                            show = false;
+                        }
                     }
 
-                    card.style.display = show ? 'block' : 'none';
+                    // Apply display
+                    if (show) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
-
+                
+                console.log('Visible activities:', visibleCount);
+                
                 // Sort activities
                 sortActivities();
             }
 
+            // Sort function - SIMPLIFIED
             function sortActivities() {
                 const container = document.getElementById('activityGrid');
-                const cards = Array.from(activityCards).filter(card => card.style.display !== 'none');
-                const sortBy = sortFilter.value;
+                const visibleCards = Array.from(activityCards).filter(card => card.style.display !== 'none');
+                
+                if (visibleCards.length === 0) {
+                    console.log('No visible cards to sort');
+                    return;
+                }
 
-                cards.sort((a, b) => {
-                    switch(sortBy) {
+                visibleCards.sort((a, b) => {
+                    const aFeatured = a.classList.contains('featured');
+                    const bFeatured = b.classList.contains('featured');
+                    
+                    // Featured items first
+                    if (aFeatured && !bFeatured) return -1;
+                    if (!aFeatured && bFeatured) return 1;
+                    
+                    // Then sort by selected criteria
+                    switch(currentFilter.sort) {
                         case 'newest':
-                            return -1; // In real app, would compare dates
+                            return 0; // Already in correct order
                         case 'oldest':
-                            return 1;
+                            return 0; // Already in correct order
                         case 'popular':
-                            // Compare participant counts
-                            const aCount = parseInt(a.querySelector('.activity-meta span:last-child').textContent.split('/')[0]);
-                            const bCount = parseInt(b.querySelector('.activity-meta span:last-child').textContent.split('/')[0]);
-                            return bCount - aCount;
+                            try {
+                                const aSpans = a.querySelectorAll('.activity-meta span');
+                                const bSpans = b.querySelectorAll('.activity-meta span');
+                                const aCount = aSpans.length > 0 ? parseInt(aSpans[aSpans.length-1].textContent.split('/')[0]) || 0 : 0;
+                                const bCount = bSpans.length > 0 ? parseInt(bSpans[bSpans.length-1].textContent.split('/')[0]) || 0 : 0;
+                                return bCount - aCount;
+                            } catch (e) {
+                                return 0;
+                            }
                         case 'deadline':
-                            // Compare dates (simplified)
-                            return -1;
+                            return 0; // Already in correct order
                         default:
                             return 0;
                     }
                 });
 
-                // Reorder in DOM
-                cards.forEach(card => container.appendChild(card));
+                // Reorder in DOM - only if we actually sorted
+                if (currentFilter.sort === 'popular') {
+                    visibleCards.forEach(card => {
+                        container.appendChild(card);
+                    });
+                }
+                
+                console.log('Activities sorted by:', currentFilter.sort);
             }
 
-            // Event listeners for filters
-            categoryFilter.addEventListener('change', filterActivities);
-            statusFilter.addEventListener('change', filterActivities);
-            sortFilter.addEventListener('change', filterActivities);
-            activitySearch.addEventListener('input', filterActivities);
+            // Event listeners for filters - FIXED
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', function() {
+                    console.log('Category filter changed:', this.value);
+                    currentFilter.category = this.value;
+                    // Update active category button
+                    categoryButtons.forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.category === this.value) {
+                            b.classList.add('active');
+                        } else if (this.value === 'all' && b.dataset.category === 'all') {
+                            b.classList.add('active');
+                        }
+                    });
+                    filterActivities();
+                });
+            }
+
+            if (statusFilter) {
+                statusFilter.addEventListener('change', function() {
+                    console.log('Status filter changed:', this.value);
+                    currentFilter.status = this.value;
+                    filterActivities();
+                });
+            }
+
+            if (sortFilter) {
+                sortFilter.addEventListener('change', function() {
+                    console.log('Sort filter changed:', this.value);
+                    currentFilter.sort = this.value;
+                    sortActivities();
+                });
+            }
+
+            // Search with debounce
+            if (activitySearch) {
+                let searchTimeout;
+                activitySearch.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        console.log('Search input:', this.value);
+                        currentFilter.search = this.value;
+                        filterActivities();
+                    }, 300);
+                });
+            }
 
             // Activity details data
             const activityDetails = {
@@ -1695,12 +1857,16 @@
 
             // Join activity buttons
             const joinButtons = document.querySelectorAll('.join-activity');
-            const modal = document.getElementById('activityModal');
-            const modalClose = document.getElementById('modalClose');
-
+            console.log('Join buttons found:', joinButtons.length);
+            
             joinButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     const activityId = this.dataset.activity;
+                    console.log('Join button clicked:', activityId);
+                    
                     const details = activityDetails[activityId];
                     
                     if (details) {
@@ -1708,7 +1874,8 @@
                         showActivityModal(details);
                     } else {
                         // Simulate joining activity
-                        const activityTitle = this.closest('.activity-card').querySelector('.activity-title').textContent;
+                        const activityCard = this.closest('.activity-card');
+                        const activityTitle = activityCard.querySelector('.activity-title').textContent;
                         
                         if (confirm(`Are you sure you want to join "${activityTitle}"?`)) {
                             this.innerHTML = '<i class="fas fa-check"></i> Joined';
@@ -1717,10 +1884,16 @@
                             this.disabled = true;
                             
                             // Update spots count
-                            const spotsElement = this.closest('.activity-card').querySelector('.activity-meta span:last-child');
-                            const [current, total] = spotsElement.textContent.split('/').map(s => parseInt(s));
-                            if (current < total) {
-                                spotsElement.textContent = `${current + 1}/${total} spots`;
+                            const spotsElement = activityCard.querySelector('.activity-meta span:last-child');
+                            const spotsText = spotsElement.textContent;
+                            const match = spotsText.match(/(\d+)\/(\d+)/);
+                            
+                            if (match) {
+                                const current = parseInt(match[1]);
+                                const total = parseInt(match[2]);
+                                if (current < total) {
+                                    spotsElement.textContent = `${current + 1}/${total} spots`;
+                                }
                             }
                             
                             alert(`✅ Successfully joined "${activityTitle}"!\n\nYou will receive a confirmation email with further details.`);
@@ -1729,7 +1902,13 @@
                 });
             });
 
+            // Modal functionality
+            const modal = document.getElementById('activityModal');
+            const modalClose = document.getElementById('modalClose');
+
             function showActivityModal(details) {
+                console.log('Showing modal for:', details.title);
+                
                 document.getElementById('modalActivityTitle').textContent = details.title;
                 
                 let syllabusHTML = '';
@@ -1814,28 +1993,35 @@
             }
 
             // Close modal
-            modalClose.addEventListener('click', function() {
-                modal.classList.remove('show');
-            });
+            if (modalClose) {
+                modalClose.addEventListener('click', function() {
+                    modal.classList.remove('show');
+                });
+            }
 
             // Close modal when clicking outside
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                }
-            });
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                    }
+                });
+            }
 
             // My Activities actions
             document.querySelectorAll('.view-details').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const activityId = this.dataset.activity;
-                    alert(`Showing details for your registered activity...`);
+                    alert(`Showing details for your registered activity: ${activityId}`);
                 });
             });
 
             document.querySelectorAll('.cancel-activity').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const activityId = this.dataset.activity;
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const activityName = this.closest('.my-activity-item').querySelector('h4').textContent;
                     
                     if (confirm(`Are you sure you want to cancel your registration for "${activityName}"?`)) {
@@ -1845,12 +2031,58 @@
                 });
             });
 
-            // Set minimum date for date inputs
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                input.min = today;
-            });
+            console.log('All event listeners initialized successfully');
+            
+            // Initial filter
+            filterActivities();
         });
+        // Profile dropdown functionality
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (profileBtn) {
+                // Toggle dropdown when profile button is clicked
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('show');
+                    profileDropdown.classList.toggle('active');
+                    console.log('Profile dropdown toggled');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!profileDropdown.contains(e.target)) {
+                        profileMenu.classList.remove('show');
+                        profileDropdown.classList.remove('active');
+                    }
+                });
+
+                // Close dropdown when clicking on a menu item
+                profileMenu.querySelectorAll('a').forEach(item => {
+                    item.addEventListener('click', function() {
+                        profileMenu.classList.remove('show');
+                        profileDropdown.classList.remove('active');
+                    });
+                });
+
+                // Logout functionality
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (confirm('Are you sure you want to log out?')) {
+                            alert('You have been logged out successfully. Redirecting to login page...');
+                            // In a real application, you would redirect to login page
+                            // window.location.href = 'login.html';
+                        }
+                    });
+                }
+
+                console.log('Profile dropdown initialized');
+            } else {
+                console.error('Profile button not found!');
+            }   
     </script>
 </body>
 </html>

@@ -16,6 +16,7 @@
             --card-white: #ffffff;
             --sidebar-width: 250px;
             --gradient-blue: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            --gradient-light: linear-gradient(135deg, #e0f2fe, #f0f9ff);
         }
 
         * {
@@ -131,7 +132,10 @@
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
-            padding: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Header */
@@ -140,22 +144,14 @@
             justify-content: space-between;
             align-items: center;
             background: var(--gradient-blue);
-            padding: 15px 30px;
+            padding: 20px 35px;
             border-radius: 15px;
             box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: white;
             position: relative;
-        }
-
-        .header:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            max-width: 1200px;
         }
 
         .page-title {
@@ -214,7 +210,7 @@
             align-items: center;
             gap: 12px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px 18px;
+            padding: 10px 20px;
             border-radius: 50px;
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -228,32 +224,30 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        .profile-pic {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f0f9ff, var(--light-blue));
+        /* Profile Container */
+        .profile-container {
+            width: 100%;
+            max-width: 1200px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            flex-shrink: 0;
+            gap: 30px;
+            flex: 1;
         }
 
-        /* Profile Card */
+        /* Profile Card - Display Mode */
         .profile-card {
             background-color: var(--card-white);
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(147, 197, 253, 0.3);
-            margin: 0 auto;
-            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .profile-card:before {
@@ -262,150 +256,164 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary-blue), var(--accent-blue));
+            height: 8px;
+            background: linear-gradient(to right, var(--primary-blue), var(--accent-blue), var(--secondary-blue));
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f1f5f9;
-        }
-
-        .card-title {
-            font-size: 1.8rem;
-            color: var(--primary-blue);
-            font-weight: 700;
-            position: relative;
-            padding-left: 15px;
-        }
-
-        .card-title:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 70%;
-            background: var(--secondary-blue);
-            border-radius: 3px;
-        }
-
-        .card-icon {
+        /* Large Profile Icon */
+        .profile-icon {
+            width: 140px;
+            height: 140px;
             background: linear-gradient(135deg, var(--light-blue), var(--secondary-blue));
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+            border: 5px solid white;
+            position: relative;
         }
 
-        /* Student Data Grid */
-        .student-data-grid {
+        .profile-icon i {
+            font-size: 4.5rem;
+            color: white;
+        }
+
+        .profile-icon:after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0; }
+        }
+
+        /* Student Name */
+        .student-name {
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .student-id {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 30px;
+            background: var(--gradient-light);
+            padding: 8px 20px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Profile Info Grid */
+        .profile-info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 25px;
+            width: 100%;
+            margin: 30px 0;
+            padding: 30px;
+            background: var(--gradient-light);
+            border-radius: 15px;
+            border: 1px solid rgba(147, 197, 253, 0.2);
         }
 
-        .data-field {
+        .info-item {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            align-items: flex-start;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .field-label {
+        .info-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-label {
             font-weight: 600;
             color: var(--dark-text);
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 8px;
             font-size: 0.95rem;
-        }
-
-        .field-label i {
-            color: var(--secondary-blue);
-            width: 20px;
-            text-align: center;
-        }
-
-        .field-value {
-            padding: 12px 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 1rem;
-            background-color: #f8fafc;
-            color: #64748b;
-        }
-
-        .field-value.editable {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .field-value.editable:hover {
-            background-color: #f0f9ff;
-            border-color: var(--light-blue);
-        }
-
-        .field-value input {
             width: 100%;
-            padding: 10px;
-            border: 2px solid var(--secondary-blue);
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: white;
-            outline: none;
+        }
+
+        .info-label i {
+            color: var(--secondary-blue);
+            font-size: 1.1rem;
+            width: 25px;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            color: #475569;
+            padding-left: 35px;
+            width: 100%;
+            word-break: break-word;
+        }
+
+        .locked-field {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .lock-icon {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-left: 5px;
         }
 
         /* Action Buttons */
-        .action-buttons-container {
+        .action-buttons {
             display: flex;
-            justify-content: space-between;
             gap: 15px;
             margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px solid #f1f5f9;
-        }
-
-        .left-actions, .right-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            width: 100%;
+            justify-content: center;
         }
 
         .action-btn {
             background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
-            text-decoration: none;
-            font-size: 0.9rem;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+            font-size: 1rem;
+            min-width: 180px;
         }
 
         .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(30, 58, 138, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.35);
         }
 
         .action-btn i {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         .secondary-btn {
@@ -418,15 +426,165 @@
             background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
         }
 
+        .edit-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+        }
+
         .save-btn {
             background: linear-gradient(135deg, #10b981, #059669);
-            padding: 14px 28px;
-            font-size: 1rem;
-            min-width: 160px;
         }
 
         .save-btn:hover {
             background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .cancel-btn:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        /* Edit Form Overlay - Initially Hidden */
+        .edit-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        /* Compact Edit Form */
+        .edit-form {
+            background: white;
+            border-radius: 20px;
+            padding: 25px; /* Compact padding */
+            width: 100%;
+            max-width: 500px; /* Smaller width */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .edit-form:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, var(--primary-blue), var(--accent-blue));
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Edit Header */
+        .edit-header {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Compact gap */
+            margin-bottom: 20px; /* Compact margin */
+        }
+
+        .edit-header i {
+            color: var(--secondary-blue);
+            font-size: 1.5rem; /* Compact size */
+        }
+
+        .edit-header h2 {
+            font-size: 1.5rem; /* Compact size */
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Compact margin */
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 6px; /* Compact margin */
+            font-size: 0.9rem; /* Compact font */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px; /* Compact padding */
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem; /* Compact font */
+            background-color: #f8fafc;
+            color: #475569;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .form-group input:disabled {
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            cursor: not-allowed;
+            border-color: #e5e7eb;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 12px; /* Compact gap */
+            margin-top: 20px; /* Compact margin */
+            justify-content: flex-end;
+        }
+
+        /* Compact Form Action Buttons */
+        .form-action-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 10px 20px; /* Compact padding */
+            border-radius: 10px; /* Compact radius */
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Compact gap */
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.25);
+            font-size: 0.9rem; /* Compact font */
+            min-width: 140px; /* Compact width */
+        }
+
+        .form-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
+        }
+
+        .form-action-btn i {
+            font-size: 0.9rem; /* Compact icon */
+        }
+
+        .form-cancel-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .form-save-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
         }
 
         /* Footer */
@@ -438,16 +596,24 @@
             font-size: 0.85rem;
             background: #f8fafc;
             border-radius: 12px;
-            margin-top: 25px;
+            margin-top: 30px;
             border: 1px solid rgba(147, 197, 253, 0.3);
+            width: 100%;
+            max-width: 1200px;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .student-data-grid {
+        @media (max-width: 1024px) {
+            .profile-info-grid {
                 grid-template-columns: 1fr;
             }
             
+            .profile-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
             .sidebar {
                 width: 70px;
             }
@@ -467,15 +633,14 @@
             
             .main-content {
                 margin-left: 70px;
-                padding: 15px;
+                padding: 20px;
             }
             
             .header {
                 flex-direction: column;
-                gap: 12px;
+                gap: 15px;
                 text-align: center;
-                padding: 15px 20px;
-                margin-bottom: 15px;
+                padding: 20px;
             }
             
             .header-actions {
@@ -485,32 +650,57 @@
             }
             
             .profile-card {
-                padding: 15px;
+                padding: 25px;
             }
             
-            .card-title {
-                font-size: 1.4rem;
+            .student-name {
+                font-size: 1.8rem;
             }
             
-            .action-buttons-container {
+            .profile-icon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-icon i {
+                font-size: 3.5rem;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
-                gap: 12px;
+                align-items: center;
             }
             
-            .left-actions, .right-actions {
+            .action-btn {
                 width: 100%;
-                justify-content: center;
+                max-width: 300px;
+            }
+            
+            .edit-form {
+                padding: 20px;
+                margin: 10px;
+                max-width: 90%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-action-btn {
+                width: 100%;
+                min-width: auto;
             }
         }
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .profile-card {
-            animation: fadeIn 0.6s ease-out;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
     </style>
 </head>
@@ -539,116 +729,150 @@
                 <i class="fas fa-user-circle"></i> Student Profile
             </div>
             <div class="header-actions">
-                <div class="notification" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
-                </div>
-                <a href="dashboard.html" class="profile-btn">
+                
+                <a href="Dashboard.html" class="profile-btn">
                     <div class="profile-pic">MA</div>
                     <span>Dashboard</span>
                 </a>
             </div>
         </header>
 
-        <!-- Profile Card - STUDENT TABLE DATA ONLY -->
-        <div class="profile-card">
-            <div class="card-header">
-                <h2 class="card-title">Student Information</h2>
-                <div class="card-icon">
+        <!-- Profile Container - Default View -->
+        <div class="profile-container">
+            <!-- Profile Card - Display Mode -->
+            <div class="profile-card" id="displayCard">
+                <div class="profile-icon">
                     <i class="fas fa-user-graduate"></i>
                 </div>
-            </div>
-            
-            <div class="profile-content">
-                <!-- STUDENT Table Fields from ERD -->
-                <div class="student-data-grid" id="studentDataGrid">
-                    <!-- studentID (Primary Key) -->
-                    <div class="data-field">
-                        <div class="field-label">
-                            <i class="fas fa-id-card"></i> Student ID (PK)
+                
+                <h1 class="student-name" id="displayName">Muhammad Amar Ghazali Bin Aziz</h1>
+                <div class="student-id" id="displayStudentID">Student ID: 2025190337</div>
+                
+                <!-- Profile Information Grid -->
+                <div class="profile-info-grid">
+                    <!-- Email -->
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-envelope"></i> Email Address
                         </div>
-                        <div class="field-value">2025190337</div>
+                        <div class="info-value" id="displayEmail">amar.ghazali@student.uitm.edu.my</div>
                     </div>
                     
-                    <!-- name -->
-                    <div class="data-field">
-                        <div class="field-label">
-                            <i class="fas fa-user"></i> Full Name
-                        </div>
-                        <div class="field-value editable" onclick="editField('name')" id="nameField">
-                            Muhammad Amar Ghazali Bin Aziz
-                        </div>
-                    </div>
-                    
-                    <!-- email -->
-                    <div class="data-field">
-                        <div class="field-label">
-                            <i class="fas fa-envelope"></i> Email
-                        </div>
-                        <div class="field-value editable" onclick="editField('email')" id="emailField">
-                            amar.ghazali@student.uitm.edu.my
-                        </div>
-                    </div>
-                    
-                    <!-- password -->
-                    <div class="data-field">
-                        <div class="field-label">
-                            <i class="fas fa-key"></i> Password
-                        </div>
-                        <div class="field-value editable" onclick="changePassword()" id="passwordField">
-                            ••••••••
-                        </div>
-                    </div>
-                    
-                    <!-- program -->
-                    <div class="data-field">
-                        <div class="field-label">
+                    <!-- Program -->
+                    <div class="info-item">
+                        <div class="info-label">
                             <i class="fas fa-graduation-cap"></i> Program
                         </div>
-                        <div class="field-value editable" onclick="editField('program')" id="programField">
-                            Bachelor of Computer Science
+                        <div class="info-value locked-field" id="displayProgram">
+                            Bachelor of Computer Science <i class="fas fa-lock lock-icon"></i>
                         </div>
                     </div>
                     
-                    <!-- yearOfStudy -->
-                    <div class="data-field">
-                        <div class="field-label">
-                            <i class="fas fa-calendar-alt"></i> Year of Study
-                        </div>
-                        <div class="field-value editable" onclick="editField('yearOfStudy')" id="yearOfStudyField">
-                            3
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    <!-- phoneNum (from your previous code) -->
-                    <div class="data-field">
-                        <div class="field-label">
+                    <!-- Phone Number -->
+                    <div class="info-item">
+                        <div class="info-label">
                             <i class="fas fa-phone"></i> Phone Number
                         </div>
-                        <div class="field-value editable" onclick="editField('phoneNum')" id="phoneNumField">
-                            +6012-3456789
+                        <div class="info-value" id="displayPhone">+6012-3456789</div>
+                    </div>
+                    
+                    <!-- Year of Study -->
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-calendar-alt"></i> Year of Study
+                        </div>
+                        <div class="info-value locked-field" id="displayYear">
+                            3 <i class="fas fa-lock lock-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-key"></i> Password
+                        </div>
+                        <div class="info-value" id="displayPassword">••••••••</div>
+                    </div>
+                    
+                    <!-- Advisor Name -->
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-user-tie"></i> Academic Advisor
+                        </div>
+                        <div class="info-value locked-field" id="displayAdvisor">
+                            Dr. Ahmad bin Ismail <i class="fas fa-lock lock-icon"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Action Buttons -->
-                <div class="action-buttons-container">
-                    <div class="left-actions">
-                        <a href="Dashboard.html" class="action-btn secondary-btn">
-                            <i class="fas fa-arrow-left"></i> Back to Dashboard
-                        </a>
-                       
+                <div class="action-buttons">
+                    <a href="Dashboard.html" class="action-btn secondary-btn">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                    <button class="action-btn edit-btn" onclick="openEditForm()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Form Overlay - Hidden by Default -->
+        <div class="edit-overlay" id="editOverlay">
+            <div class="edit-form">
+                <!-- Single Column Compact Edit Form Only -->
+                <div class="edit-header">
+                    <i class="fas fa-user-edit"></i>
+                    <h2>Edit Profile Information</h2>
+                </div>
+                
+                <form id="profileForm">
+                    <!-- Editable Fields -->
+                    <div class="form-group">
+                        <label for="editName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="editName" value="Muhammad Amar Ghazali Bin Aziz">
                     </div>
                     
-                    <div class="right-actions">
-                        
-                        <button class="action-btn save-btn" onclick="saveChanges()">
+                    <div class="form-group">
+                        <label for="editEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="editEmail" value="amar.ghazali@student.uitm.edu.my">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="editPhone" value="+6012-3456789">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPassword"><i class="fas fa-key"></i> Change Password</label>
+                        <input type="password" id="editPassword" placeholder="Enter new password (optional)">
+                    </div>
+                    
+                    <!-- Non-Editable Fields (Locked) -->
+                    <div class="form-group">
+                        <label><i class="fas fa-graduation-cap"></i> Program</label>
+                        <input type="text" value="Bachelor of Computer Science" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Year of Study</label>
+                        <input type="text" value="3" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-user-tie"></i> Academic Advisor</label>
+                        <input type="text" value="Dr. Ahmad bin Ismail" disabled>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="form-action-btn form-cancel-btn" onclick="closeEditForm()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="form-action-btn form-save-btn" onclick="saveProfile()">
                             <i class="fas fa-save"></i> Save Changes
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -660,143 +884,113 @@
     </div>
 
     <script>
-        // Hardcoded STUDENT table data from ERD
-        const studentTableData = {
+        // Student data from ERD
+        const studentData = {
             studentID: '2025190337',
             name: 'Muhammad Amar Ghazali Bin Aziz',
             email: 'amar.ghazali@student.uitm.edu.my',
-            password: '••••••••',
             program: 'Bachelor of Computer Science',
             yearOfStudy: '3',
-            advisorID: 'ADV001',
-            phoneNum: '+6012-3456789'
+            phoneNum: '+6012-3456789',
+            advisorName: 'Dr. Ahmad bin Ismail'
         };
 
-        // Track which field is being edited
-        let editingField = null;
-        let originalValue = '';
-
-        // Edit field functionality
-        function editField(fieldName) {
-            // If already editing a field, save it first
-            if (editingField && editingField !== fieldName) {
-                saveCurrentEdit();
-            }
+        // Open edit form (overlay)
+        function openEditForm() {
+            // Hide the main profile card
+            document.getElementById('displayCard').style.display = 'none';
+            // Show the edit overlay
+            document.getElementById('editOverlay').style.display = 'flex';
             
-            const fieldElement = document.getElementById(fieldName + 'Field');
-            originalValue = fieldElement.textContent.trim();
-            
-            // Create input field
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = originalValue;
-            input.onkeypress = function(e) {
-                if (e.key === 'Enter') {
-                    saveField(fieldName, this.value);
-                }
-            };
-            
-            // Clear field and add input
-            fieldElement.textContent = '';
-            fieldElement.appendChild(input);
-            input.focus();
-            
-            editingField = fieldName;
+            // Populate form fields with current data
+            document.getElementById('editName').value = studentData.name;
+            document.getElementById('editEmail').value = studentData.email;
+            document.getElementById('editPhone').value = studentData.phoneNum;
+            document.getElementById('editPassword').value = '';
         }
 
-        function saveField(fieldName, newValue) {
-            if (newValue.trim() === '') {
-                alert('Field cannot be empty!');
+        // Close edit form
+        function closeEditForm() {
+            // Show the main profile card again
+            document.getElementById('displayCard').style.display = 'flex';
+            // Hide the edit overlay
+            document.getElementById('editOverlay').style.display = 'none';
+            
+            // Reset password field
+            document.getElementById('editPassword').value = '';
+        }
+
+        // Save profile changes
+        function saveProfile() {
+            // Get form values
+            const newName = document.getElementById('editName').value.trim();
+            const newEmail = document.getElementById('editEmail').value.trim();
+            const newPhone = document.getElementById('editPhone').value.trim();
+            const newPassword = document.getElementById('editPassword').value;
+
+            // Validate required fields
+            if (!newName || !newEmail || !newPhone) {
+                showNotification('Please fill in all required fields!', 'error');
                 return;
             }
-            
-            const fieldElement = document.getElementById(fieldName + 'Field');
-            fieldElement.textContent = newValue;
-            
-            // Update the hardcoded data
-            studentTableData[fieldName] = newValue;
-            
-            editingField = null;
-            showNotification(`${fieldName} updated successfully!`, 'success');
-        }
 
-        function saveCurrentEdit() {
-            if (!editingField) return;
-            
-            const fieldElement = document.getElementById(editingField + 'Field');
-            const input = fieldElement.querySelector('input');
-            if (input) {
-                saveField(editingField, input.value);
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(newEmail)) {
+                showNotification('Please enter a valid email address!', 'error');
+                return;
             }
-        }
 
-        function changePassword() {
-            saveCurrentEdit();
-            
-            const newPassword = prompt('Enter new password (min. 8 characters):');
-            if (newPassword && newPassword.length >= 8) {
-                const confirmPassword = prompt('Confirm new password:');
-                if (newPassword === confirmPassword) {
-                    studentTableData.password = '••••••••';
-                    document.getElementById('passwordField').textContent = '••••••••';
-                    showNotification('Password changed successfully!', 'success');
-                } else {
-                    showNotification('Passwords do not match!', 'error');
+            // Update student data
+            studentData.name = newName;
+            studentData.email = newEmail;
+            studentData.phoneNum = newPhone;
+
+            // Update main display
+            document.getElementById('displayName').textContent = studentData.name;
+            document.getElementById('displayEmail').textContent = studentData.email;
+            document.getElementById('displayPhone').textContent = studentData.phoneNum;
+
+            // Update password if changed
+            if (newPassword) {
+                if (newPassword.length < 8) {
+                    showNotification('Password must be at least 8 characters!', 'error');
+                    return;
                 }
-            } else if (newPassword) {
-                showNotification('Password must be at least 8 characters!', 'error');
+                showNotification('Password updated successfully!', 'success');
+                document.getElementById('editPassword').value = '';
             }
+
+            // Close edit form
+            closeEditForm();
+
+            // Show success message
+            showNotification('Profile updated successfully!', 'success');
+
+            // Log updated data
+            console.log('Updated STUDENT Table Data:', studentData);
         }
 
-        function saveChanges() {
-            saveCurrentEdit();
-            showNotification('All changes saved to STUDENT table!', 'success');
-            
-            // Log the current data (in real app, this would be sent to server)
-            console.log('STUDENT Table Data:', studentTableData);
-        }
-
-        function discardChanges() {
-            if (editingField) {
-                const fieldElement = document.getElementById(editingField + 'Field');
-                fieldElement.textContent = originalValue;
-                editingField = null;
-                showNotification('Edit discarded!', 'info');
-            } else {
-                // Reload all fields with original data
-                document.getElementById('nameField').textContent = studentTableData.name;
-                document.getElementById('emailField').textContent = studentTableData.email;
-                document.getElementById('programField').textContent = studentTableData.program;
-                document.getElementById('yearOfStudyField').textContent = studentTableData.yearOfStudy;
-                document.getElementById('phoneNumField').textContent = studentTableData.phoneNum;
-                showNotification('All changes discarded!', 'info');
-            }
-        }
-
-        function printProfile() {
-            saveCurrentEdit();
-            window.print();
-        }
-
+        // Notification system
         function showNotification(message, type) {
             const notification = document.createElement('div');
             notification.textContent = message;
             notification.style.cssText = `
                 position: fixed;
-                top: 15px;
-                right: 15px;
-                padding: 12px 20px;
-                border-radius: 8px;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 10px;
                 color: white;
                 font-weight: 600;
-                z-index: 1000;
+                z-index: 2000;
                 animation: slideIn 0.3s ease-out;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.15);
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255,255,255,0.2);
-                max-width: 350px;
+                max-width: 400px;
                 word-wrap: break-word;
-                font-size: 0.9rem;
+                font-size: 1rem;
             `;
             
             if (type === 'success') {
@@ -816,7 +1010,7 @@
                         document.body.removeChild(notification);
                     }
                 }, 300);
-            }, 2500);
+            }, 3000);
         }
 
         // Add CSS for animations
@@ -840,10 +1034,29 @@
             this.querySelector('.notification-badge').style.backgroundColor = '#6b7280';
         });
 
-        // Save changes when clicking outside
-        document.addEventListener('click', function(e) {
-            if (editingField && !e.target.closest('.field-value.editable')) {
-                saveCurrentEdit();
+        // Close edit form when clicking outside
+        document.getElementById('editOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditForm();
+            }
+        });
+
+        // Close edit form with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('editOverlay').style.display === 'flex') {
+                closeEditForm();
+            }
+        });
+
+        // Email validation on blur
+        document.getElementById('editEmail').addEventListener('blur', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (this.value && !emailRegex.test(this.value)) {
+                this.style.borderColor = '#ef4444';
+                this.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            } else {
+                this.style.borderColor = '';
+                this.style.boxShadow = '';
             }
         });
     </script>
